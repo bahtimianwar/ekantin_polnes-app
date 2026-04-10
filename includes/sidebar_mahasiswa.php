@@ -29,7 +29,7 @@ $saldo = $saldo_row ? $saldo_row['saldo'] : 0;
 
         .sidebar {
             width: 260px;
-            background: linear-gradient(160deg, #3730a3 0%, #4338ca 60%, #6366f1 100%);
+            background: linear-gradient(160deg, #064e3b 0%, #065f46 60%, #059669 100%);
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -136,7 +136,7 @@ $saldo = $saldo_row ? $saldo_row['saldo'] : 0;
 
         .main-content { margin-left: 260px; flex: 1; padding: 28px; height: 100vh; }
         .page-header { margin-bottom: 24px; }
-        .page-header h1 { font-size: 24px; font-weight: 700; color: #3730a3; }
+        .page-header h1 { font-size: 24px; font-weight: 700; color: #064e3b; }
         .page-header p { color: #666; font-size: 14px; margin-top: 4px; }
 
         @media (max-width: 768px) {
