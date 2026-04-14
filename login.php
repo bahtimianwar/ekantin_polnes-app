@@ -32,11 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
-            // Regenerasi ID untuk keamanan saat login sukses
-            session_regenerate_id(true);
             $_SESSION['user'] = $user;
-
-            // Logika Redirect Berdasarkan Role
             if ($user['role'] === 'admin') {
                 header("Location: dashboard/admin/dashboard.php");
             } elseif ($user['role'] === 'penjual') {

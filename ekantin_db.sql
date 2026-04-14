@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 10 Apr 2026 pada 02.53
--- Versi server: 10.4.32-MariaDB
--- Versi PHP: 8.2.12
+-- Generation Time: Apr 14, 2026 at 04:31 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `detail_pesanan`
+-- Table structure for table `detail_pesanan`
 --
 
 CREATE TABLE `detail_pesanan` (
@@ -36,7 +36,7 @@ CREATE TABLE `detail_pesanan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `detail_pesanan`
+-- Dumping data for table `detail_pesanan`
 --
 
 INSERT INTO `detail_pesanan` (`id_detail`, `id_pesanan`, `id_menu`, `jumlah`, `subtotal`) VALUES
@@ -46,14 +46,12 @@ INSERT INTO `detail_pesanan` (`id_detail`, `id_pesanan`, `id_menu`, `jumlah`, `s
 (4, 4, 5, 2, 400000),
 (5, 5, 5, 16, 3200000),
 (6, 6, 4, 5, 75000),
-(7, 7, 4, 1, 15000),
-(8, 8, 6, 1, 15000),
-(9, 8, 7, 1, 5000);
+(7, 7, 5, 30, 6000000);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `menu`
+-- Table structure for table `menu`
 --
 
 CREATE TABLE `menu` (
@@ -67,19 +65,17 @@ CREATE TABLE `menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `menu`
+-- Dumping data for table `menu`
 --
 
 INSERT INTO `menu` (`id_menu`, `id_penjual`, `nama_menu`, `kategori`, `harga`, `gambar`, `created_at`) VALUES
 (4, 4, 'NASI GORENG', 'MAKANAN', 15000, '1773030740_5-Resep-Nasi-Goreng-Sederhana-hingga-Spesial-Mudah-dan-Praktis.jpg', '2026-03-12 08:01:25'),
-(5, 3, 'nasgor kece', 'MAKANAN', 200000, '1773327097_69b2d2f99e411.jpg', '2026-03-12 14:51:37'),
-(6, 5, 'Nasi Padang', 'MAKANAN', 15000, '1775445084_69d3245cebe44.jpeg', '2026-04-06 03:11:24'),
-(7, 5, 'ES TEH', 'MINUMAN', 5000, '1775445103_69d3246f99f29.jpg', '2026-04-06 03:11:43');
+(5, 3, 'nasgor kece', 'MAKANAN', 200000, '1773327097_69b2d2f99e411.jpg', '2026-03-12 14:51:37');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `notifikasi`
+-- Table structure for table `notifikasi`
 --
 
 CREATE TABLE `notifikasi` (
@@ -92,7 +88,7 @@ CREATE TABLE `notifikasi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `notifikasi`
+-- Dumping data for table `notifikasi`
 --
 
 INSERT INTO `notifikasi` (`id_notif`, `id_user`, `judul`, `pesan`, `is_read`, `tanggal`) VALUES
@@ -124,27 +120,25 @@ INSERT INTO `notifikasi` (`id_notif`, `id_user`, `judul`, `pesan`, `is_read`, `t
 (27, 17, 'Top Up Berhasil ✅', 'Top up sebesar Rp 500.000 telah dikonfirmasi. Saldo kamu sudah bertambah!', 1, '2026-04-02 09:47:04'),
 (28, 17, 'Top Up Berhasil ✅', 'Top up sebesar Rp 20.000 telah dikonfirmasi. Saldo kamu sudah bertambah!', 1, '2026-04-02 09:47:07'),
 (29, 19, 'Pesanan Baru Masuk! 🛒', 'Ada pesanan baru #6 dari aldi langit cihuy senilai Rp 75.000.', 0, '2026-04-02 09:51:15'),
-(30, 17, 'Pesanan Berhasil Dibuat ✅', 'Pesanan #6 senilai Rp 75.000 berhasil dibuat. Tunggu konfirmasi penjual.', 0, '2026-04-02 09:51:15'),
-(31, 17, 'Pesanan Sedang Diproses 🍳', 'Pesanan #6 kamu sedang disiapkan oleh penjual. Harap tunggu ya!', 0, '2026-04-02 09:51:25'),
-(32, 17, 'Pesanan Selesai ✅', 'Pesanan #6 kamu sudah selesai. Silakan ambil pesananmu!', 0, '2026-04-02 09:51:32'),
-(33, 24, 'Selamat Datang! 🎉', 'Halo HAPIS! Akun E-Kantin kamu berhasil dibuat. Silakan top up saldo untuk mulai memesan.', 1, '2026-04-06 02:37:32'),
-(34, 24, 'Pengajuan Top Up', 'Pengajuan top up sebesar Rp 20.000 sedang diproses. Saldo akan ditambahkan setelah dikonfirmasi admin.', 0, '2026-04-06 02:39:18'),
-(35, 24, 'Top Up Berhasil ✅', 'Top up sebesar Rp 20.000 telah dikonfirmasi. Saldo kamu sudah bertambah!', 0, '2026-04-06 02:49:53'),
-(36, 19, 'Pesanan Baru Masuk! 🛒', 'Ada pesanan baru #7 dari HAPIS senilai Rp 15.000.', 0, '2026-04-06 02:50:52'),
-(37, 24, 'Pesanan Berhasil Dibuat ✅', 'Pesanan #7 senilai Rp 15.000 berhasil dibuat. Tunggu konfirmasi penjual.', 0, '2026-04-06 02:50:52'),
-(38, 24, 'Pengajuan Top Up', 'Pengajuan top up sebesar Rp 500.000 sedang diproses. Saldo akan ditambahkan setelah dikonfirmasi admin.', 0, '2026-04-06 03:13:14'),
-(39, 24, 'Top Up Berhasil ✅', 'Top up sebesar Rp 500.000 telah dikonfirmasi. Saldo kamu sudah bertambah!', 0, '2026-04-06 03:14:49'),
-(40, 24, 'Pengajuan Top Up', 'Pengajuan top up sebesar Rp 500.000 sedang diproses. Saldo akan ditambahkan setelah dikonfirmasi admin.', 0, '2026-04-06 03:14:55'),
-(41, 25, 'Pesanan Baru Masuk! 🛒', 'Ada pesanan baru #8 dari HAPIS senilai Rp 20.000.', 0, '2026-04-06 03:15:15'),
-(42, 24, 'Pesanan Berhasil Dibuat ✅', 'Pesanan #8 senilai Rp 20.000 berhasil dibuat. Tunggu konfirmasi penjual.', 0, '2026-04-06 03:15:15'),
-(43, 24, 'Pesanan Sedang Diproses 🍳', 'Pesanan #8 kamu sedang disiapkan oleh penjual. Harap tunggu ya!', 0, '2026-04-06 03:15:30'),
-(44, 24, 'Pesanan Selesai ✅', 'Pesanan #8 kamu sudah selesai. Silakan ambil pesananmu!', 0, '2026-04-06 03:15:48'),
-(45, 24, 'Pesanan Dibatalkan', 'Pesanan #7 dibatalkan oleh penjual. Saldo Rp 15.000 telah dikembalikan.', 0, '2026-04-06 03:18:13');
+(30, 17, 'Pesanan Berhasil Dibuat ✅', 'Pesanan #6 senilai Rp 75.000 berhasil dibuat. Tunggu konfirmasi penjual.', 1, '2026-04-02 09:51:15'),
+(31, 17, 'Pesanan Sedang Diproses 🍳', 'Pesanan #6 kamu sedang disiapkan oleh penjual. Harap tunggu ya!', 1, '2026-04-02 09:51:25'),
+(32, 17, 'Pesanan Selesai ✅', 'Pesanan #6 kamu sudah selesai. Silakan ambil pesananmu!', 1, '2026-04-02 09:51:32'),
+(33, 17, 'Pengajuan Top Up', 'Pengajuan top up sebesar Rp 500.000 sedang diproses. Saldo akan ditambahkan setelah dikonfirmasi admin.', 1, '2026-04-09 11:38:34'),
+(34, 17, 'Top Up Berhasil ✅', 'Top up sebesar Rp 500.000 telah dikonfirmasi. Saldo kamu sudah bertambah!', 1, '2026-04-09 11:39:06'),
+(35, 18, 'Pesanan Baru Masuk! 🛒', 'Ada pesanan baru #7 dari aldi langit cihuy senilai Rp 6.000.000.', 0, '2026-04-09 11:39:32'),
+(36, 17, 'Pesanan Berhasil Dibuat ✅', 'Pesanan #7 senilai Rp 6.000.000 berhasil dibuat. Tunggu konfirmasi penjual.', 1, '2026-04-09 11:39:32'),
+(37, 17, 'Pesanan Sedang Diproses 🍳', 'Pesanan #7 kamu sedang disiapkan oleh penjual. Harap tunggu ya!', 1, '2026-04-09 11:39:47'),
+(38, 17, 'Pesanan Selesai ✅', 'Pesanan #7 kamu sudah selesai. Silakan ambil pesananmu!', 1, '2026-04-09 11:39:56'),
+(39, 17, 'Pengajuan Top Up', 'Pengajuan top up sebesar Rp 10.000 sedang diproses. Saldo akan ditambahkan setelah dikonfirmasi admin.', 0, '2026-04-13 05:19:00'),
+(40, 17, 'Pengajuan Top Up', 'Pengajuan top up sebesar Rp 20.000 sedang diproses. Saldo akan ditambahkan setelah dikonfirmasi admin.', 0, '2026-04-13 05:19:23'),
+(41, 17, 'Pengajuan Top Up', 'Pengajuan top up sebesar Rp 100.000 sedang diproses. Saldo akan ditambahkan setelah dikonfirmasi admin.', 0, '2026-04-14 02:29:07'),
+(42, 17, 'Pengajuan Top Up', 'Pengajuan top up sebesar Rp 100.000 sedang diproses. Saldo akan ditambahkan setelah dikonfirmasi admin.', 0, '2026-04-14 02:29:31'),
+(43, 17, 'Pengajuan Top Up', 'Pengajuan top up sebesar Rp 100.000 sedang diproses. Saldo akan ditambahkan setelah dikonfirmasi admin.', 0, '2026-04-14 02:29:35');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `penjual`
+-- Table structure for table `penjual`
 --
 
 CREATE TABLE `penjual` (
@@ -157,18 +151,17 @@ CREATE TABLE `penjual` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `penjual`
+-- Dumping data for table `penjual`
 --
 
 INSERT INTO `penjual` (`id_penjual`, `id_user`, `nama_kantin`, `lokasi`, `teks_gambar_qris`, `no_rek`) VALUES
 (3, 18, 'KANTIN MAHBOI', 'GEDUNG TI', NULL, ''),
-(4, 19, 'KANTIN PAK MAHDI', 'KANTIN DANAU', NULL, '123456789'),
-(5, 25, 'KANTIN BERKAH', 'KANTIN DANAU', NULL, '1234-0123-9876');
+(4, 19, 'KANTIN PAK MAHDI', 'KANTIN DANAU', NULL, '123456789');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pesanan`
+-- Table structure for table `pesanan`
 --
 
 CREATE TABLE `pesanan` (
@@ -182,7 +175,7 @@ CREATE TABLE `pesanan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `pesanan`
+-- Dumping data for table `pesanan`
 --
 
 INSERT INTO `pesanan` (`id_pesanan`, `id_user`, `id_penjual`, `tanggal`, `status`, `total_harga`, `metode_bayar`) VALUES
@@ -192,13 +185,12 @@ INSERT INTO `pesanan` (`id_pesanan`, `id_user`, `id_penjual`, `tanggal`, `status
 (4, 17, 3, '2026-03-24 16:03:15', 'selesai', 400000, 'saldo'),
 (5, 17, 3, '2026-03-30 14:27:12', 'selesai', 3200000, 'saldo'),
 (6, 17, 4, '2026-04-02 17:51:15', 'selesai', 75000, 'saldo'),
-(7, 24, 4, '2026-04-06 10:50:52', 'batal', 15000, 'saldo'),
-(8, 24, 5, '2026-04-06 11:15:15', 'selesai', 20000, 'saldo');
+(7, 17, 3, '2026-04-09 19:39:32', 'selesai', 6000000, 'saldo');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `saldo`
+-- Table structure for table `saldo`
 --
 
 CREATE TABLE `saldo` (
@@ -209,17 +201,16 @@ CREATE TABLE `saldo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `saldo`
+-- Dumping data for table `saldo`
 --
 
 INSERT INTO `saldo` (`id_saldo`, `id_user`, `saldo`, `updated_at`) VALUES
-(1, 17, 46850000, '2026-04-02 09:51:15'),
-(5, 24, 500000, '2026-04-06 03:18:13');
+(1, 17, 41350000, '2026-04-09 11:39:32');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `topup`
+-- Table structure for table `topup`
 --
 
 CREATE TABLE `topup` (
@@ -235,7 +226,7 @@ CREATE TABLE `topup` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `topup`
+-- Dumping data for table `topup`
 --
 
 INSERT INTO `topup` (`id_topup`, `id_user`, `jumlah`, `metode`, `bukti`, `status`, `catatan`, `tanggal`, `diproses_at`) VALUES
@@ -244,14 +235,17 @@ INSERT INTO `topup` (`id_topup`, `id_user`, `jumlah`, `metode`, `bukti`, `status
 (3, 17, 20000, 'transfer_bri', NULL, 'diterima', NULL, '2026-04-02 09:42:24', NULL),
 (4, 17, 20000, 'transfer_bri', NULL, 'diterima', NULL, '2026-04-02 09:43:15', NULL),
 (5, 17, 500000, 'qris', NULL, 'diterima', NULL, '2026-04-02 09:46:45', NULL),
-(6, 24, 20000, 'transfer_mandiri', NULL, 'diterima', NULL, '2026-04-06 02:39:18', NULL),
-(7, 24, 500000, 'transfer_bri', NULL, 'diterima', NULL, '2026-04-06 03:13:14', NULL),
-(8, 24, 500000, 'transfer_bri', NULL, 'menunggu', NULL, '2026-04-06 03:14:55', NULL);
+(6, 17, 500000, 'transfer_bri', NULL, 'diterima', NULL, '2026-04-09 11:38:34', NULL),
+(7, 17, 10000, 'transfer_bri', NULL, 'menunggu', NULL, '2026-04-13 05:19:00', NULL),
+(8, 17, 20000, 'transfer_bri', NULL, 'menunggu', NULL, '2026-04-13 05:19:23', NULL),
+(9, 17, 100000, 'transfer_bri', NULL, 'menunggu', NULL, '2026-04-14 02:29:07', NULL),
+(10, 17, 100000, 'transfer_bri', NULL, 'menunggu', NULL, '2026-04-14 02:29:31', NULL),
+(11, 17, 100000, 'transfer_bri', NULL, 'menunggu', NULL, '2026-04-14 02:29:35', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -266,7 +260,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id_user`, `nim`, `nama`, `email`, `no_hp`, `password`, `created_at`, `role`) VALUES
@@ -274,16 +268,14 @@ INSERT INTO `users` (`id_user`, `nim`, `nama`, `email`, `no_hp`, `password`, `cr
 (18, NULL, 'MAHBOI', 'ADMIN@KANTIN', '08123', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '2026-03-12 16:26:29', 'penjual'),
 (19, NULL, 'MAHDI', 'ADMIN@MAHDI', '08321', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '2026-03-12 08:01:25', 'penjual'),
 (20, NULL, 'Administrator', 'admin@ekantin.com', '08000000000', '$2y$10$TKh8H1.PfbuNIAEpFs0o.ezZ3KxaH7lG6Qg3TUa0vIBzDq3vQ1qTm', '2026-04-02 09:13:05', ''),
-(23, NULL, 'habib', 'admin@gmail.com', '0813', '$2y$10$yaikRD69ThD0o7Xl5aOOsua7fW4dqVzV9vOkpZI7NcJgUXFVxhove', '2026-04-02 09:31:54', 'admin'),
-(24, '246661053', 'HAPIS', 'hapismahdi@gmail.com', '08129834765', '$2y$10$nXdKOE6kAWTBhmTwrKDWleHorcqN5oXkPovD6Y4FzTmCWij1AkquS', '2026-04-06 02:37:32', 'mahasiswa'),
-(25, NULL, 'ANDI MASUD', 'kantinberkah@gmail.com', '0843341221', '$2y$10$FG7rAP1zGGeVcVWP9GLbi.QOgocK4UXFazR07ObcvLplpmELd8DWK', '2026-04-06 03:09:16', 'penjual');
+(23, NULL, 'habib', 'admin@gmail.com', '0813', '$2y$10$yaikRD69ThD0o7Xl5aOOsua7fW4dqVzV9vOkpZI7NcJgUXFVxhove', '2026-04-02 09:31:54', 'admin');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `detail_pesanan`
+-- Indexes for table `detail_pesanan`
 --
 ALTER TABLE `detail_pesanan`
   ADD PRIMARY KEY (`id_detail`),
@@ -291,21 +283,21 @@ ALTER TABLE `detail_pesanan`
   ADD KEY `id_menu` (`id_menu`);
 
 --
--- Indeks untuk tabel `menu`
+-- Indexes for table `menu`
 --
 ALTER TABLE `menu`
   ADD PRIMARY KEY (`id_menu`),
   ADD KEY `id_penjual` (`id_penjual`);
 
 --
--- Indeks untuk tabel `notifikasi`
+-- Indexes for table `notifikasi`
 --
 ALTER TABLE `notifikasi`
   ADD PRIMARY KEY (`id_notif`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indeks untuk tabel `penjual`
+-- Indexes for table `penjual`
 --
 ALTER TABLE `penjual`
   ADD PRIMARY KEY (`id_penjual`),
@@ -313,7 +305,7 @@ ALTER TABLE `penjual`
   ADD KEY `fk_penjual_id_user` (`id_user`);
 
 --
--- Indeks untuk tabel `pesanan`
+-- Indexes for table `pesanan`
 --
 ALTER TABLE `pesanan`
   ADD PRIMARY KEY (`id_pesanan`),
@@ -321,21 +313,21 @@ ALTER TABLE `pesanan`
   ADD KEY `id_penjual` (`id_penjual`);
 
 --
--- Indeks untuk tabel `saldo`
+-- Indexes for table `saldo`
 --
 ALTER TABLE `saldo`
   ADD PRIMARY KEY (`id_saldo`),
   ADD UNIQUE KEY `id_user` (`id_user`);
 
 --
--- Indeks untuk tabel `topup`
+-- Indexes for table `topup`
 --
 ALTER TABLE `topup`
   ADD PRIMARY KEY (`id_topup`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indeks untuk tabel `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id_user`),
@@ -344,101 +336,101 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `unique_nim` (`nim`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `detail_pesanan`
+-- AUTO_INCREMENT for table `detail_pesanan`
 --
 ALTER TABLE `detail_pesanan`
-  MODIFY `id_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT untuk tabel `menu`
+-- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT untuk tabel `notifikasi`
+-- AUTO_INCREMENT for table `notifikasi`
 --
 ALTER TABLE `notifikasi`
-  MODIFY `id_notif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id_notif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
--- AUTO_INCREMENT untuk tabel `penjual`
+-- AUTO_INCREMENT for table `penjual`
 --
 ALTER TABLE `penjual`
-  MODIFY `id_penjual` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_penjual` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT untuk tabel `pesanan`
+-- AUTO_INCREMENT for table `pesanan`
 --
 ALTER TABLE `pesanan`
-  MODIFY `id_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT untuk tabel `saldo`
+-- AUTO_INCREMENT for table `saldo`
 --
 ALTER TABLE `saldo`
-  MODIFY `id_saldo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_saldo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT untuk tabel `topup`
+-- AUTO_INCREMENT for table `topup`
 --
 ALTER TABLE `topup`
-  MODIFY `id_topup` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_topup` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT untuk tabel `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `detail_pesanan`
+-- Constraints for table `detail_pesanan`
 --
 ALTER TABLE `detail_pesanan`
   ADD CONSTRAINT `detail_pesanan_ibfk_1` FOREIGN KEY (`id_pesanan`) REFERENCES `pesanan` (`id_pesanan`),
   ADD CONSTRAINT `detail_pesanan_ibfk_2` FOREIGN KEY (`id_menu`) REFERENCES `menu` (`id_menu`);
 
 --
--- Ketidakleluasaan untuk tabel `menu`
+-- Constraints for table `menu`
 --
 ALTER TABLE `menu`
   ADD CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`id_penjual`) REFERENCES `penjual` (`id_penjual`);
 
 --
--- Ketidakleluasaan untuk tabel `notifikasi`
+-- Constraints for table `notifikasi`
 --
 ALTER TABLE `notifikasi`
   ADD CONSTRAINT `notifikasi_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `penjual`
+-- Constraints for table `penjual`
 --
 ALTER TABLE `penjual`
   ADD CONSTRAINT `fk_penjual_id_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
 
 --
--- Ketidakleluasaan untuk tabel `pesanan`
+-- Constraints for table `pesanan`
 --
 ALTER TABLE `pesanan`
   ADD CONSTRAINT `pesanan_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`),
   ADD CONSTRAINT `pesanan_ibfk_2` FOREIGN KEY (`id_penjual`) REFERENCES `penjual` (`id_penjual`);
 
 --
--- Ketidakleluasaan untuk tabel `saldo`
+-- Constraints for table `saldo`
 --
 ALTER TABLE `saldo`
   ADD CONSTRAINT `saldo_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `topup`
+-- Constraints for table `topup`
 --
 ALTER TABLE `topup`
   ADD CONSTRAINT `topup_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;

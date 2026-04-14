@@ -1,10 +1,4 @@
 <?php
-session_start();
-if (!isset($_SESSION['user'])) {
-    header("Location: ../../login.php"); // Sesuaikan jumlah ../ dengan kedalaman folder
-    exit;
-}
-
 require_once '../../includes/db.php';
 require_once '../../includes/sidebar_admin.php';
 

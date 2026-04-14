@@ -1,8 +1,7 @@
 <?php
 session_start();
-if (!isset($_SESSION['user'])) {
-    header("Location: ../../login.php");
-    exit;
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'penjual') {
+    header('Location: /login.php'); exit;
 }
 require_once '../../includes/db.php';
 

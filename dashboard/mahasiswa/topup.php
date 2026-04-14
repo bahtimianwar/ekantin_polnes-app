@@ -18,11 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($jumlah > 1000000) {
         $error = 'Maksimal top up adalah Rp 1.000.000 per transaksi';
     } else {
-        // Simpan pengajuan top up
         $pdo->prepare("INSERT INTO topup (id_user, jumlah, metode, status) VALUES (?, ?, ?, 'menunggu')")
             ->execute([$id_user, $jumlah, $metode]);
 
-        // Tambah notifikasi
         $pdo->prepare("INSERT INTO notifikasi (id_user, judul, pesan) VALUES (?, 'Pengajuan Top Up', ?)")
             ->execute([$id_user, "Pengajuan top up sebesar Rp " . number_format($jumlah, 0, ',', '.') . " sedang diproses. Saldo akan ditambahkan setelah dikonfirmasi admin."]);
 
@@ -40,16 +38,12 @@ $saldo = $saldo_row ? $saldo_row['saldo'] : 0;
 $stmt2 = $pdo->prepare("SELECT * FROM topup WHERE id_user = ? ORDER BY tanggal DESC LIMIT 10");
 $stmt2->execute([$id_user]);
 $topup_list = $stmt2->fetchAll();
-
-// Info penjual untuk rekening tujuan (ambil salah satu admin/sistem)
-// Anda bisa hardcode nomor rekening admin sistem di sini
-$rek_admin = "BRI 1234-5678-9012-3456 a.n. E-Kantin Kampus";
 ?>
 
 <?php require_once '../../includes/sidebar_mahasiswa.php'; ?>
 
 <div class="page-header">
-    <h1><i class="fas fa-wallet" style="color:#065f46; margin-right:10px;"></i>Top Up Saldo</h1>
+    <h1><i class="fas fa-wallet" style="color:var(--ac); margin-right:10px;"></i>Top Up Saldo</h1>
     <p>Tambah saldo untuk memudahkan pembayaran di kantin</p>
 </div>
 
@@ -58,14 +52,30 @@ $rek_admin = "BRI 1234-5678-9012-3456 a.n. E-Kantin Kampus";
     @media(max-width:900px) { .topup-layout { grid-template-columns: 1fr; } }
 
     .card { background: white; border-radius: 16px; box-shadow: 0 2px 14px rgba(0,0,0,0.06); overflow: hidden; margin-bottom: 20px; }
-    .card-header { background: linear-gradient(135deg, #064e3b, #059669); padding: 18px 24px; display: flex; align-items: center; gap: 12px; }
-    .card-header-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.15); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 17px; }
-    .card-header h3 { color: white; font-size: 16px; font-weight: 700; }
-    .card-header p { color: rgba(255,255,255,0.65); font-size: 12px; }
+
+    /* ── Card Header: tidak lagi hijau, ikut warna card ── */
+    .card-header {
+        background: #f8fafb;
+        border-bottom: 1px solid #efefef;
+        padding: 18px 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .card-header-icon {
+        width: 40px; height: 40px;
+        background: #e8f5e9;
+        border-radius: 10px;
+        display: flex; align-items: center; justify-content: center;
+        color: #059669;
+        font-size: 17px;
+    }
+    .card-header h3 { color: #1a1a1a; font-size: 16px; font-weight: 700; }
+    .card-header p  { color: #888; font-size: 12px; margin-top: 2px; }
+
     .card-body { padding: 24px; }
 
     .saldo-display {
-        background: linear-gradient(135deg, #064e3b, #059669);
         border-radius: 14px; padding: 22px; color: white; margin-bottom: 22px;
         display: flex; align-items: center; justify-content: space-between;
     }
@@ -83,7 +93,7 @@ $rek_admin = "BRI 1234-5678-9012-3456 a.n. E-Kantin Kampus";
         background: #065f46; color: white; border-color: #065f46;
     }
     .nominal-btn .amount { font-size: 14px; font-weight: 800; }
-    .nominal-btn .label { font-size: 11px; font-weight: 400; opacity: 0.75; }
+    .nominal-btn .label  { font-size: 11px; font-weight: 400; opacity: 0.75; }
 
     .form-group { margin-bottom: 16px; }
     .form-group label { display: block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 7px; }
@@ -94,12 +104,12 @@ $rek_admin = "BRI 1234-5678-9012-3456 a.n. E-Kantin Kampus";
     .form-group input:focus, .form-group select:focus { border-color: #059669; box-shadow: 0 0 0 3px rgba(0,137,123,0.1); }
 
     .info-box { background: #d1fae5; border-radius: 12px; padding: 14px 16px; margin-bottom: 18px; }
-    .info-box .title { font-size: 12px; font-weight: 700; color: #065f46; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .info-box .title    { font-size: 12px; font-weight: 700; color: #065f46; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
     .info-box .rekening { font-size: 15px; font-weight: 800; color: #064e3b; }
-    .info-box .note { font-size: 12px; color: #065f46; margin-top: 4px; }
+    .info-box .note     { font-size: 12px; color: #065f46; margin-top: 4px; }
 
     .btn-topup {
-        width: 100%; padding: 13px; background: linear-gradient(135deg, #064e3b, #059669);
+        width: 100%; padding: 13px;
         color: white; border: none; border-radius: 10px;
         font-size: 15px; font-weight: 700; cursor: pointer;
         display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -109,7 +119,7 @@ $rek_admin = "BRI 1234-5678-9012-3456 a.n. E-Kantin Kampus";
 
     .alert { padding: 12px 16px; border-radius: 10px; margin-bottom: 20px; font-size: 13.5px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
     .alert-success { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
-    .alert-error { background: #fce4ec; color: #c62828; border: 1px solid #f8bbd0; }
+    .alert-error   { background: #fce4ec; color: #c62828; border: 1px solid #f8bbd0; }
 
     .steps { counter-reset: step; }
     .step { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
@@ -127,8 +137,44 @@ $rek_admin = "BRI 1234-5678-9012-3456 a.n. E-Kantin Kampus";
     .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; }
     .badge-menunggu { background: #fff3e0; color: #e65100; }
     .badge-diterima { background: #e8f5e9; color: #2e7d32; }
-    .badge-ditolak { background: #fce4ec; color: #c62828; }
-    .empty-row td { text-align: center; color: #bbb; padding: 30px; }
+    .badge-ditolak  { background: #fce4ec; color: #c62828; }
+    .empty-row td   { text-align: center; color: #bbb; padding: 30px; }
+
+    /* ── Dark mode ── */
+    [data-theme="dark"] .card      { background: var(--bg-card); box-shadow: var(--shadow); }
+    [data-theme="dark"] .card-body { background: var(--bg-card); }
+
+    /* Card header ikut gelap */
+    [data-theme="dark"] .card-header {
+        background: var(--bg-card);
+        border-bottom-color: var(--border);
+    }
+    [data-theme="dark"] .card-header h3   { color: var(--text-1); }
+    [data-theme="dark"] .card-header p    { color: var(--text-3); }
+    [data-theme="dark"] .card-header-icon { background: var(--ac-lt); color: var(--ac); }
+
+    [data-theme="dark"] .nominal-btn { background: var(--bg-card2); color: var(--ac-tx); border-color: var(--border); }
+    [data-theme="dark"] .nominal-btn:hover,
+    [data-theme="dark"] .nominal-btn.selected { background: var(--ac); color: white; border-color: var(--ac); }
+    [data-theme="dark"] .form-group label { color: var(--text-2); }
+    [data-theme="dark"] .form-group input,
+    [data-theme="dark"] .form-group select { background: var(--inp-bg); border-color: var(--inp-bd); color: var(--text-1); }
+    [data-theme="dark"] .form-group select option { background: var(--bg-card); color: var(--text-1); }
+    [data-theme="dark"] .info-box          { background: var(--ac-lt); }
+    [data-theme="dark"] .info-box .title   { color: var(--ac-tx); }
+    [data-theme="dark"] .info-box .rekening{ color: var(--text-1); }
+    [data-theme="dark"] .info-box .note    { color: var(--text-2); }
+    [data-theme="dark"] .step-text         { color: var(--text-2); }
+    [data-theme="dark"] .history-table th  { color: var(--text-3); border-bottom-color: var(--border); }
+    [data-theme="dark"] .history-table td  { color: var(--text-2); border-bottom-color: var(--border); }
+    [data-theme="dark"] .empty-row td      { color: var(--text-3); }
+    [data-theme="dark"] .alert-success { background: rgba(34,197,94,.12); color: #4ade80; border-color: rgba(34,197,94,.2); }
+    [data-theme="dark"] .alert-error   { background: rgba(239,68,68,.12); color: #f87171; border-color: rgba(239,68,68,.2); }
+    [data-theme="dark"] .step-num      { background: var(--ac); }
+    [data-theme="dark"] div[style*="background:#fff8e1"] {
+        background: rgba(255,143,0,0.1) !important;
+        color: var(--text-2) !important;
+    }
 </style>
 
 <?php if ($success): ?>
@@ -144,7 +190,10 @@ $rek_admin = "BRI 1234-5678-9012-3456 a.n. E-Kantin Kampus";
         <div class="card">
             <div class="card-header">
                 <div class="card-header-icon"><i class="fas fa-plus-circle"></i></div>
-                <div><h3>Ajukan Top Up</h3><p>Pilih nominal dan metode pembayaran</p></div>
+                <div>
+                    <h3>Ajukan Top Up</h3>
+                    <p>Pilih nominal dan metode pembayaran</p>
+                </div>
             </div>
             <div class="card-body">
                 <div class="saldo-display">
@@ -171,7 +220,9 @@ $rek_admin = "BRI 1234-5678-9012-3456 a.n. E-Kantin Kampus";
 
                     <div class="form-group">
                         <label>Nominal Lainnya (opsional)</label>
-                        <input type="number" id="jumlah_input" name="jumlah" placeholder="Masukkan nominal, min. 10.000" min="10000" max="1000000" step="1000">
+                        <input type="number" id="jumlah_input" name="jumlah"
+                               placeholder="Masukkan nominal, min. 10.000"
+                               min="10000" max="1000000" step="1000">
                     </div>
 
                     <div class="form-group">
@@ -188,10 +239,12 @@ $rek_admin = "BRI 1234-5678-9012-3456 a.n. E-Kantin Kampus";
                     <div class="info-box" id="rekening_info">
                         <div class="title">Rekening Tujuan</div>
                         <div class="rekening" id="rek_text">BRI 1234-5678-9012-3456</div>
-                        <div class="note" id="rek_note">a.n. E-Kantin Kampus · Wajib transfer sesuai nominal</div>
+                        <div class="note"     id="rek_note">a.n. E-Kantin Kampus · Wajib transfer sesuai nominal</div>
                     </div>
 
-                    <button type="submit" class="btn-topup"><i class="fas fa-paper-plane"></i> Kirim Pengajuan Top Up</button>
+                    <button type="submit" class="btn-topup">
+                        <i class="fas fa-paper-plane"></i> Kirim Pengajuan Top Up
+                    </button>
                 </form>
             </div>
         </div>
@@ -202,7 +255,10 @@ $rek_admin = "BRI 1234-5678-9012-3456 a.n. E-Kantin Kampus";
         <div class="card">
             <div class="card-header">
                 <div class="card-header-icon"><i class="fas fa-question-circle"></i></div>
-                <div><h3>Cara Top Up</h3><p>Ikuti langkah-langkah berikut</p></div>
+                <div>
+                    <h3>Cara Top Up</h3>
+                    <p>Ikuti langkah-langkah berikut</p>
+                </div>
             </div>
             <div class="card-body">
                 <div class="steps">
@@ -238,23 +294,38 @@ $rek_admin = "BRI 1234-5678-9012-3456 a.n. E-Kantin Kampus";
         <div class="card">
             <div class="card-header">
                 <div class="card-header-icon"><i class="fas fa-history"></i></div>
-                <div><h3>Riwayat Top Up</h3><p>10 transaksi terakhir</p></div>
+                <div>
+                    <h3>Riwayat Top Up</h3>
+                    <p>10 transaksi terakhir</p>
+                </div>
             </div>
             <div class="card-body" style="padding:0;">
                 <table class="history-table">
-                    <thead><tr><th>Tanggal</th><th>Jumlah</th><th>Metode</th><th>Status</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Jumlah</th>
+                            <th>Metode</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
                     <tbody>
                     <?php if (empty($topup_list)): ?>
-                        <tr class="empty-row"><td colspan="4"><i class="fas fa-inbox" style="display:block;font-size:30px;margin-bottom:8px;"></i>Belum ada top up</td></tr>
+                        <tr class="empty-row">
+                            <td colspan="4">
+                                <i class="fas fa-inbox" style="display:block;font-size:30px;margin-bottom:8px;"></i>
+                                Belum ada top up
+                            </td>
+                        </tr>
                     <?php else: ?>
-                    <?php foreach ($topup_list as $t): ?>
-                    <tr>
-                        <td><?= date('d/m/y', strtotime($t['tanggal'])) ?></td>
-                        <td><strong>Rp <?= number_format($t['jumlah'], 0, ',', '.') ?></strong></td>
-                        <td style="font-size:12px;"><?= str_replace('_', ' ', ucfirst($t['metode'])) ?></td>
-                        <td><span class="badge badge-<?= $t['status'] ?>"><?= ucfirst($t['status']) ?></span></td>
-                    </tr>
-                    <?php endforeach; ?>
+                        <?php foreach ($topup_list as $t): ?>
+                        <tr>
+                            <td><?= date('d/m/y', strtotime($t['tanggal'])) ?></td>
+                            <td><strong>Rp <?= number_format($t['jumlah'], 0, ',', '.') ?></strong></td>
+                            <td style="font-size:12px;"><?= str_replace('_', ' ', ucfirst($t['metode'])) ?></td>
+                            <td><span class="badge badge-<?= $t['status'] ?>"><?= ucfirst($t['status']) ?></span></td>
+                        </tr>
+                        <?php endforeach; ?>
                     <?php endif; ?>
                     </tbody>
                 </table>
@@ -271,19 +342,17 @@ function setNominal(amount) {
 }
 
 const rekeningData = {
-    'transfer_bri': { rek: 'BRI 1234-5678-9012-3456', note: 'a.n. E-Kantin Kampus' },
-    'transfer_bca': { rek: 'BCA 0987-6543-2100', note: 'a.n. E-Kantin Kampus' },
-    'transfer_mandiri': { rek: 'Mandiri 108-0002-345678', note: 'a.n. E-Kantin Kampus' },
-    'qris': { rek: 'Scan QR Code di Kantin', note: 'Tunjukkan bukti pembayaran ke admin' },
-    'tunai': { rek: 'Bayar Langsung ke Admin', note: 'Datang ke kantor administrasi kampus' }
+    'transfer_bri':     { rek: 'BRI 1234-5678-9012-3456',   note: 'a.n. E-Kantin Kampus' },
+    'transfer_bca':     { rek: 'BCA 0987-6543-2100',         note: 'a.n. E-Kantin Kampus' },
+    'transfer_mandiri': { rek: 'Mandiri 108-0002-345678',    note: 'a.n. E-Kantin Kampus' },
+    'qris':             { rek: 'Scan QR Code di Kantin',     note: 'Tunjukkan bukti pembayaran ke admin' },
+    'tunai':            { rek: 'Bayar Langsung ke Admin',    note: 'Datang ke kantor administrasi kampus' }
 };
 
 function updateRekening() {
     const metode = document.getElementById('metode_select').value;
-    const data = rekeningData[metode] || rekeningData['transfer_bri'];
+    const data   = rekeningData[metode] || rekeningData['transfer_bri'];
     document.getElementById('rek_text').textContent = data.rek;
     document.getElementById('rek_note').textContent = data.note;
 }
 </script>
-
-</div></body></html>

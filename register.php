@@ -2,16 +2,8 @@
 session_start();
 require_once 'includes/db.php';
 
-// Jika user SUDAH login, jangan biarkan akses halaman daftar, 
-// langsung arahkan ke dashboard masing-masing.
 if (isset($_SESSION['user'])) {
-    if ($_SESSION['user']['role'] === 'admin') {
-        header("Location: dashboard/admin/dashboard.php");
-    } elseif ($_SESSION['user']['role'] === 'penjual') {
-        header("Location: dashboard/penjual/dashboard.php");
-    } else {
-        header("Location: dashboard/mahasiswa/beranda.php");
-    }
+    header("Location: login.php");
     exit;
 }
 
