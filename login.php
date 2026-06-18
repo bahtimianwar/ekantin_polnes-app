@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'User ID dan password tidak boleh kosong.';
     } else {
         $stmt = $pdo->prepare("
-            SELECT * FROM users 
+            SELECT * FROM ekantin_users 
             WHERE email = ? OR nim = ? OR no_hp = ?
             LIMIT 1
         ");

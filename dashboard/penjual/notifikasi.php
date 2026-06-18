@@ -9,25 +9,25 @@ $id_user = $_SESSION['user']['id_user'];
 
 // Tandai semua sebagai dibaca
 if ($_GET['action'] ?? '' === 'read_all') {
-    $pdo->prepare("UPDATE notifikasi SET is_read = 1 WHERE id_user = ?")->execute([$id_user]);
+    $pdo->prepare("UPDATE ekantin_notifikasi SET is_read = 1 WHERE id_user = ?")->execute([$id_user]);
     header("Location: notifikasi.php");
     exit;
 }
 
 // Tandai satu sebagai dibaca
 if (isset($_GET['read'])) {
-    $pdo->prepare("UPDATE notifikasi SET is_read = 1 WHERE id_notif = ? AND id_user = ?")->execute([$_GET['read'], $id_user]);
+    $pdo->prepare("UPDATE ekantin_notifikasi SET is_read = 1 WHERE id_notif = ? AND id_user = ?")->execute([$_GET['read'], $id_user]);
 }
 
 // Hapus notif
 if (isset($_GET['hapus'])) {
-    $pdo->prepare("DELETE FROM notifikasi WHERE id_notif = ? AND id_user = ?")->execute([$_GET['hapus'], $id_user]);
+    $pdo->prepare("DELETE FROM ekantin_notifikasi WHERE id_notif = ? AND id_user = ?")->execute([$_GET['hapus'], $id_user]);
     header("Location: notifikasi.php");
     exit;
 }
 
 // Ambil notifikasi
-$stmt = $pdo->prepare("SELECT * FROM notifikasi WHERE id_user = ? ORDER BY tanggal DESC");
+$stmt = $pdo->prepare("SELECT * FROM ekantin_notifikasi WHERE id_user = ? ORDER BY tanggal DESC");
 $stmt->execute([$id_user]);
 $notifs = $stmt->fetchAll();
 

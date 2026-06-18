@@ -10,7 +10,7 @@ $success = ''; $error = '';
 
 // Hapus menu
 if (isset($_GET['hapus'])) {
-    $pdo->prepare("DELETE FROM menu WHERE id_menu = ? AND id_penjual = ?")->execute([$_GET['hapus'], $id_penjual]);
+    $pdo->prepare("DELETE FROM ekantin_menu WHERE id_menu = ? AND id_penjual = ?")->execute([$_GET['hapus'], $id_penjual]);
     header("Location: menu.php?deleted=1"); exit;
 }
 
@@ -44,11 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (!$error) {
             if ($id_menu > 0) {
-                $pdo->prepare("UPDATE menu SET nama_menu=?, kategori=?, harga=?, gambar=? WHERE id_menu=? AND id_penjual=?")
+                $pdo->prepare("UPDATE ekantin_menu SET nama_menu=?, kategori=?, harga=?, gambar=? WHERE id_menu=? AND id_penjual=?")
                     ->execute([$nama_menu, $kategori, $harga, $gambar, $id_menu, $id_penjual]);
                 $success = 'Menu berhasil diperbarui!';
             } else {
-                $pdo->prepare("INSERT INTO menu (id_penjual, nama_menu, kategori, harga, gambar) VALUES (?,?,?,?,?)")
+                $pdo->prepare("INSERT INTO ekantin_menu (id_penjual, nama_menu, kategori, harga, gambar) VALUES (?,?,?,?,?)")
                     ->execute([$id_penjual, $nama_menu, $kategori, $harga, $gambar]);
                 $success = 'Menu berhasil ditambahkan!';
             }
@@ -59,13 +59,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Edit mode
 $edit_data = null;
 if (isset($_GET['edit'])) {
-    $stmt = $pdo->prepare("SELECT * FROM menu WHERE id_menu = ? AND id_penjual = ?");
+    $stmt = $pdo->prepare("SELECT * FROM ekantin_menu WHERE id_menu = ? AND id_penjual = ?");
     $stmt->execute([$_GET['edit'], $id_penjual]);
     $edit_data = $stmt->fetch();
 }
 
 // Ambil semua menu
-$stmt = $pdo->prepare("SELECT * FROM menu WHERE id_penjual = ? ORDER BY kategori, nama_menu");
+$stmt = $pdo->prepare("SELECT * FROM ekantin_menu WHERE id_penjual = ? ORDER BY kategori, nama_menu");
 $stmt->execute([$id_penjual]);
 $menu_list = $stmt->fetchAll();
 

@@ -3,19 +3,19 @@ require_once '../../includes/db.php';
 require_once '../../includes/sidebar_admin.php';
 
 // Statistik umum
-$total_mahasiswa = $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'mahasiswa'")->fetchColumn();
-$total_penjual   = $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'penjual'")->fetchColumn();
-$topup_menunggu  = $pdo->query("SELECT COUNT(*) FROM topup WHERE status = 'menunggu'")->fetchColumn();
-$total_saldo     = $pdo->query("SELECT COALESCE(SUM(saldo),0) FROM saldo")->fetchColumn();
+$total_mahasiswa = $pdo->query("SELECT COUNT(*) FROM ekantin_users WHERE role = 'mahasiswa'")->fetchColumn();
+$total_penjual   = $pdo->query("SELECT COUNT(*) FROM ekantin_users WHERE role = 'penjual'")->fetchColumn();
+$topup_menunggu  = $pdo->query("SELECT COUNT(*) FROM ekantin_topup WHERE status = 'menunggu'")->fetchColumn();
+$total_saldo     = $pdo->query("SELECT COALESCE(SUM(saldo),0) FROM ekantin_saldo")->fetchColumn();
 
 // Total top up diterima hari ini
-$topup_hari = $pdo->query("SELECT COALESCE(SUM(jumlah),0) FROM topup WHERE status='diterima' AND DATE(tanggal)=CURDATE()")->fetchColumn();
+$topup_hari = $pdo->query("SELECT COALESCE(SUM(jumlah),0) FROM ekantin_topup WHERE status='diterima' AND DATE(tanggal)=CURDATE()")->fetchColumn();
 
 // Top up terbaru (5)
 $stmt = $pdo->query("
     SELECT t.*, u.nama, u.nim
-    FROM topup t
-    JOIN users u ON t.id_user = u.id_user
+    FROM ekantin_topup t
+    JOIN ekantin_users u ON t.id_user = u.id_user
     ORDER BY t.tanggal DESC
     LIMIT 5
 ");

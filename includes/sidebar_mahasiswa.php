@@ -2,11 +2,11 @@
 $current_page = basename($_SERVER['PHP_SELF']);
 require_once __DIR__ . '/db.php';
 
-$stmt = $pdo->prepare("SELECT COUNT(*) FROM notifikasi WHERE id_user = ? AND is_read = 0");
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM ekantin_notifikasi WHERE id_user = ? AND is_read = 0");
 $stmt->execute([$_SESSION['user']['id_user']]);
 $notif_count = $stmt->fetchColumn();
 
-$stmt2 = $pdo->prepare("SELECT saldo FROM saldo WHERE id_user = ?");
+$stmt2 = $pdo->prepare("SELECT saldo FROM ekantin_saldo WHERE id_user = ?");
 $stmt2->execute([$_SESSION['user']['id_user']]);
 $saldo_row = $stmt2->fetch();
 $saldo = $saldo_row ? $saldo_row['saldo'] : 0;

@@ -9,7 +9,7 @@ require_once '../../includes/db.php';
 $id_penjual = $_SESSION['penjual']['id_penjual'] ?? 0;
 
 if (!$id_penjual) {
-    $stmt = $pdo->prepare("SELECT id_penjual FROM penjual WHERE id_user = ?");
+    $stmt = $pdo->prepare("SELECT id_penjual FROM ekantin_penjual WHERE id_user = ?");
     $stmt->execute([$_SESSION['user']['id_user']]);
     $row = $stmt->fetch();
     $id_penjual = $row['id_penjual'] ?? 0;
@@ -24,35 +24,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $status_map = ['proses' => 'diproses', 'selesai' => 'selesai', 'batal' => 'batal'];
     if (isset($status_map[$action])) {
         $new_status = $status_map[$action];
-        $pdo->prepare("UPDATE pesanan SET status=? WHERE id_pesanan=? AND id_penjual=?")
+        $pdo->prepare("UPDATE ekantin_pesanan SET status=? WHERE id_pesanan=? AND id_penjual=?")
             ->execute([$new_status, $id_pesanan, $id_penjual]);
 
         // Kalau batal, kembalikan saldo
         if ($new_status === 'batal') {
-            $stmt = $pdo->prepare("SELECT id_user, total_harga, metode_bayar FROM pesanan WHERE id_pesanan = ?");
+            $stmt = $pdo->prepare("SELECT id_user, total_harga, metode_bayar FROM ekantin_pesanan WHERE id_pesanan = ?");
             $stmt->execute([$id_pesanan]);
             $p = $stmt->fetch();
             if ($p && $p['metode_bayar'] === 'saldo') {
-                $pdo->prepare("UPDATE saldo SET saldo = saldo + ? WHERE id_user = ?")
+                $pdo->prepare("UPDATE ekantin_saldo SET saldo = saldo + ? WHERE id_user = ?")
                     ->execute([$p['total_harga'], $p['id_user']]);
-                $pdo->prepare("INSERT INTO notifikasi (id_user, judul, pesan) VALUES (?, 'Pesanan Dibatalkan', ?)")
+                $pdo->prepare("INSERT INTO ekantin_notifikasi (id_user, judul, pesan) VALUES (?, 'Pesanan Dibatalkan', ?)")
                     ->execute([$p['id_user'], "Pesanan #$id_pesanan dibatalkan oleh penjual. Saldo Rp " . number_format($p['total_harga'],0,',','.') . " telah dikembalikan."]);
             }
         }
 
         // Notif ke mahasiswa kalau diproses/selesai
         if ($new_status === 'diproses') {
-            $stmt = $pdo->prepare("SELECT id_user FROM pesanan WHERE id_pesanan = ?");
+            $stmt = $pdo->prepare("SELECT id_user FROM ekantin_pesanan WHERE id_pesanan = ?");
             $stmt->execute([$id_pesanan]);
             $p = $stmt->fetch();
-            $pdo->prepare("INSERT INTO notifikasi (id_user, judul, pesan) VALUES (?, 'Pesanan Sedang Diproses 🍳', ?)")
+            $pdo->prepare("INSERT INTO ekantin_notifikasi (id_user, judul, pesan) VALUES (?, 'Pesanan Sedang Diproses 🍳', ?)")
                 ->execute([$p['id_user'], "Pesanan #$id_pesanan kamu sedang disiapkan oleh penjual. Harap tunggu ya!"]);
         }
         if ($new_status === 'selesai') {
-            $stmt = $pdo->prepare("SELECT id_user FROM pesanan WHERE id_pesanan = ?");
+            $stmt = $pdo->prepare("SELECT id_user FROM ekantin_pesanan WHERE id_pesanan = ?");
             $stmt->execute([$id_pesanan]);
             $p = $stmt->fetch();
-            $pdo->prepare("INSERT INTO notifikasi (id_user, judul, pesan) VALUES (?, 'Pesanan Selesai ✅', ?)")
+            $pdo->prepare("INSERT INTO ekantin_notifikasi (id_user, judul, pesan) VALUES (?, 'Pesanan Selesai ✅', ?)")
                 ->execute([$p['id_user'], "Pesanan #$id_pesanan kamu sudah selesai. Silakan ambil pesananmu!"]);
         }
     }
@@ -67,10 +67,10 @@ $params = $filter === 'semua' ? [$id_penjual] : [$id_penjual, $filter];
 $stmt = $pdo->prepare("
     SELECT p.*, u.nama, u.nim, u.no_hp,
            GROUP_CONCAT(CONCAT(m.nama_menu, ' (', dp.jumlah, 'x) = Rp ', FORMAT(dp.subtotal,0)) SEPARATOR '||') as items
-    FROM pesanan p
-    JOIN users u ON p.id_user = u.id_user
-    LEFT JOIN detail_pesanan dp ON p.id_pesanan = dp.id_pesanan
-    LEFT JOIN menu m ON dp.id_menu = m.id_menu
+    FROM ekantin_pesanan p
+    JOIN ekantin_users u ON p.id_user = u.id_user
+    LEFT JOIN ekantin_detail_pesanan dp ON p.id_pesanan = dp.id_pesanan
+    LEFT JOIN ekantin_menu m ON dp.id_menu = m.id_menu
     $where
     GROUP BY p.id_pesanan
     ORDER BY p.tanggal DESC
@@ -81,7 +81,7 @@ $pesanan_list = $stmt->fetchAll();
 // Count per status
 $counts = [];
 foreach (['menunggu','diproses','selesai','batal'] as $s) {
-    $st = $pdo->prepare("SELECT COUNT(*) FROM pesanan WHERE id_penjual = ? AND status = ?");
+    $st = $pdo->prepare("SELECT COUNT(*) FROM ekantin_pesanan WHERE id_penjual = ? AND status = ?");
     $st->execute([$id_penjual, $s]);
     $counts[$s] = $st->fetchColumn();
 }

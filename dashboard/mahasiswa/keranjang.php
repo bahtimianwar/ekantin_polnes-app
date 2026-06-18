@@ -3,9 +3,9 @@ session_start();
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'mahasiswa') { header('Location: /e-kantin/login.php'); exit; }
 require_once '../../includes/db.php';
 $id_user = $_SESSION['user']['id_user'];
-$stmt = $pdo->prepare("SELECT COALESCE(saldo,0) as saldo FROM saldo WHERE id_user=?");
+$stmt = $pdo->prepare("SELECT COALESCE(saldo,0) as saldo FROM ekantin_saldo WHERE id_user=?");
 $stmt->execute([$id_user]); $saldo = $stmt->fetchColumn() ?: 0;
-$stmt2 = $pdo->query("SELECT pj.*, COUNT(m.id_menu) as total_menu FROM penjual pj LEFT JOIN menu m ON m.id_penjual = pj.id_penjual GROUP BY pj.id_penjual");
+$stmt2 = $pdo->query("SELECT pj.*, COUNT(m.id_menu) as total_menu FROM ekantin_penjual pj LEFT JOIN ekantin_menu m ON m.id_penjual = pj.id_penjual GROUP BY pj.id_penjual");
 $kantin_list = $stmt2->fetchAll();
 ?>
 <?php require_once '../../includes/sidebar_mahasiswa.php'; ?>

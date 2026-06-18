@@ -18,10 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($jumlah > 1000000) {
         $error = 'Maksimal top up adalah Rp 1.000.000 per transaksi';
     } else {
-        $pdo->prepare("INSERT INTO topup (id_user, jumlah, metode, status) VALUES (?, ?, ?, 'menunggu')")
+        $pdo->prepare("INSERT INTO ekantin_topup (id_user, jumlah, metode, status) VALUES (?, ?, ?, 'menunggu')")
             ->execute([$id_user, $jumlah, $metode]);
 
-        $pdo->prepare("INSERT INTO notifikasi (id_user, judul, pesan) VALUES (?, 'Pengajuan Top Up', ?)")
+        $pdo->prepare("INSERT INTO ekantin_notifikasi (id_user, judul, pesan) VALUES (?, 'Pengajuan Top Up', ?)")
             ->execute([$id_user, "Pengajuan top up sebesar Rp " . number_format($jumlah, 0, ',', '.') . " sedang diproses. Saldo akan ditambahkan setelah dikonfirmasi admin."]);
 
         $success = 'Pengajuan top up berhasil dikirim! Tunggu konfirmasi dari admin.';
@@ -29,13 +29,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Ambil saldo
-$stmt = $pdo->prepare("SELECT COALESCE(saldo, 0) as saldo FROM saldo WHERE id_user = ?");
+$stmt = $pdo->prepare("SELECT COALESCE(saldo, 0) as saldo FROM ekantin_saldo WHERE id_user = ?");
 $stmt->execute([$id_user]);
 $saldo_row = $stmt->fetch();
 $saldo = $saldo_row ? $saldo_row['saldo'] : 0;
 
 // Riwayat top up
-$stmt2 = $pdo->prepare("SELECT * FROM topup WHERE id_user = ? ORDER BY tanggal DESC LIMIT 10");
+$stmt2 = $pdo->prepare("SELECT * FROM ekantin_topup WHERE id_user = ? ORDER BY tanggal DESC LIMIT 10");
 $stmt2->execute([$id_user]);
 $topup_list = $stmt2->fetchAll();
 ?>

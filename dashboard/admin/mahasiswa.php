@@ -7,9 +7,9 @@ $stmt = $pdo->query("
     SELECT u.id_user, u.nim, u.nama, u.email, u.no_hp, u.created_at,
            COALESCE(s.saldo, 0) as saldo,
            COUNT(DISTINCT t.id_topup) as total_topup
-    FROM users u
-    LEFT JOIN saldo s ON u.id_user = s.id_user
-    LEFT JOIN topup t ON u.id_user = t.id_user AND t.status = 'diterima'
+    FROM ekantin_users u
+    LEFT JOIN ekantin_saldo s ON u.id_user = s.id_user
+    LEFT JOIN ekantin_topup t ON u.id_user = t.id_user AND t.status = 'diterima'
     WHERE u.role = 'mahasiswa'
     GROUP BY u.id_user
     ORDER BY u.created_at DESC

@@ -7,7 +7,7 @@ $id_user = $_SESSION['user']['id_user'];
 $success = '';
 $error = '';
 
-$stmt = $pdo->prepare("SELECT nama, nim, no_hp FROM users WHERE id_user = ?");
+$stmt = $pdo->prepare("SELECT nama, nim, no_hp FROM ekantin_users WHERE id_user = ?");
 $stmt->execute([$id_user]);
 $user_data = $stmt->fetch();
 
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (empty($nama)) {
             $error = 'Nama tidak boleh kosong.';
         } else {
-            $pdo->prepare("UPDATE users SET nama=?, no_hp=? WHERE id_user=?")->execute([$nama, $no_hp, $id_user]);
+            $pdo->prepare("UPDATE ekantin_users SET nama=?, no_hp=? WHERE id_user=?")->execute([$nama, $no_hp, $id_user]);
             $_SESSION['user']['nama'] = $nama;
             $user_data['nama']  = $nama;
             $user_data['no_hp'] = $no_hp;
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pw_lama  = $_POST['password_lama'] ?? '';
         $pw_baru  = $_POST['password_baru'] ?? '';
         $pw_ulang = $_POST['password_ulang'] ?? '';
-        $stmt2 = $pdo->prepare("SELECT password FROM users WHERE id_user = ?");
+        $stmt2 = $pdo->prepare("SELECT password FROM ekantin_users WHERE id_user = ?");
         $stmt2->execute([$id_user]);
         $row = $stmt2->fetch();
         if (!password_verify($pw_lama, $row['password'])) {
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($pw_baru !== $pw_ulang) {
             $error = 'Konfirmasi password tidak cocok.';
         } else {
-            $pdo->prepare("UPDATE users SET password=? WHERE id_user=?")->execute([password_hash($pw_baru, PASSWORD_DEFAULT), $id_user]);
+            $pdo->prepare("UPDATE ekantin_users SET password=? WHERE id_user=?")->execute([password_hash($pw_baru, PASSWORD_DEFAULT), $id_user]);
             $success = 'Password berhasil diubah!';
         }
     }

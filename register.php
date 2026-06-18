@@ -38,12 +38,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Nama kantin dan lokasi wajib diisi.';
     } else {
         // Cek duplikat
-        $stmt = $pdo->prepare("SELECT id_user FROM users WHERE email = ? OR no_hp = ?");
+        $stmt = $pdo->prepare("SELECT id_user FROM ekantin_users WHERE email = ? OR no_hp = ?");
         $stmt->execute([$email, $no_hp]);
         if ($stmt->fetch()) {
             $error = 'Email atau nomor HP sudah terdaftar.';
         } elseif ($role === 'mahasiswa') {
-            $stmt2 = $pdo->prepare("SELECT id_user FROM users WHERE nim = ?");
+            $stmt2 = $pdo->prepare("SELECT id_user FROM ekantin_users WHERE nim = ?");
             $stmt2->execute([$nim]);
             if ($stmt2->fetch()) $error = 'NIM sudah terdaftar.';
         }
@@ -53,17 +53,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $pdo->beginTransaction();
 
-                $pdo->prepare("INSERT INTO users (nim, nama, email, no_hp, password, role) VALUES (?,?,?,?,?,?)")
+                $pdo->prepare("INSERT INTO ekantin_users (nim, nama, email, no_hp, password, role) VALUES (?,?,?,?,?,?)")
                     ->execute([$role === 'mahasiswa' ? $nim : null, $nama, $email, $no_hp, $hash, $role]);
 
                 $id_user = $pdo->lastInsertId();
 
                 if ($role === 'mahasiswa') {
-                    $pdo->prepare("INSERT INTO saldo (id_user, saldo) VALUES (?, 0)")->execute([$id_user]);
-                    $pdo->prepare("INSERT INTO notifikasi (id_user, judul, pesan) VALUES (?, 'Selamat Datang! 🎉', ?)")
+                    $pdo->prepare("INSERT INTO ekantin_saldo (id_user, saldo) VALUES (?, 0)")->execute([$id_user]);
+                    $pdo->prepare("INSERT INTO ekantin_notifikasi (id_user, judul, pesan) VALUES (?, 'Selamat Datang! 🎉', ?)")
                         ->execute([$id_user, "Halo $nama! Akun E-Kantin kamu berhasil dibuat. Silakan top up saldo untuk mulai memesan."]);
                 } else {
-                    $pdo->prepare("INSERT INTO penjual (id_user, nama_kantin, lokasi, no_rek) VALUES (?,?,?,?)")
+                    $pdo->prepare("INSERT INTO ekantin_penjual (id_user, nama_kantin, lokasi, no_rek) VALUES (?,?,?,?)")
                         ->execute([$id_user, $nama_kantin, $lokasi, $no_rek]);
                 }
 

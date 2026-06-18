@@ -4,11 +4,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 require_once __DIR__ . '/db.php';
 
-$stmt = $pdo->prepare("SELECT COUNT(*) FROM notifikasi WHERE id_user = ? AND is_read = 0");
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM ekantin_notifikasi WHERE id_user = ? AND is_read = 0");
 $stmt->execute([$_SESSION['user']['id_user']]);
 $notif_count = $stmt->fetchColumn();
 
-$stmt2 = $pdo->prepare("SELECT COUNT(*) FROM pesanan WHERE id_penjual = ? AND status = 'menunggu'");
+$stmt2 = $pdo->prepare("SELECT COUNT(*) FROM ekantin_pesanan WHERE id_penjual = ? AND status = 'menunggu'");
 $stmt2->execute([$_SESSION['penjual']['id_penjual'] ?? 0]);
 $pesanan_baru = $stmt2->fetchColumn();
 

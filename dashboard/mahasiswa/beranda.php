@@ -7,17 +7,17 @@ require_once '../../includes/db.php';
 
 $id_user = $_SESSION['user']['id_user'];
 
-$stmt = $pdo->prepare("SELECT COALESCE(saldo, 0) as saldo FROM saldo WHERE id_user = ?");
+$stmt = $pdo->prepare("SELECT COALESCE(saldo, 0) as saldo FROM ekantin_saldo WHERE id_user = ?");
 $stmt->execute([$id_user]);
 $saldo = $stmt->fetchColumn() ?: 0;
 
 $stmt2 = $pdo->prepare("
     SELECT p.*, pj.nama_kantin,
            GROUP_CONCAT(CONCAT(m.nama_menu, ' x', dp.jumlah) SEPARATOR ', ') as items
-    FROM pesanan p
-    JOIN penjual pj ON p.id_penjual = pj.id_penjual
-    LEFT JOIN detail_pesanan dp ON p.id_pesanan = dp.id_pesanan
-    LEFT JOIN menu m ON dp.id_menu = m.id_menu
+    FROM ekantin_pesanan p
+    JOIN ekantin_penjual pj ON p.id_penjual = pj.id_penjual
+    LEFT JOIN ekantin_detail_pesanan dp ON p.id_pesanan = dp.id_pesanan
+    LEFT JOIN ekantin_menu m ON dp.id_menu = m.id_menu
     WHERE p.id_user = ? AND p.status IN ('menunggu','diproses')
     GROUP BY p.id_pesanan
     ORDER BY p.tanggal DESC
@@ -25,13 +25,13 @@ $stmt2 = $pdo->prepare("
 $stmt2->execute([$id_user]);
 $pesanan_aktif = $stmt2->fetchAll();
 
-$stmt3 = $pdo->query("SELECT pj.*, COUNT(m.id_menu) as total_menu FROM penjual pj LEFT JOIN menu m ON m.id_penjual = pj.id_penjual GROUP BY pj.id_penjual");
+$stmt3 = $pdo->query("SELECT pj.*, COUNT(m.id_menu) as total_menu FROM ekantin_penjual pj LEFT JOIN ekantin_menu m ON m.id_penjual = pj.id_penjual GROUP BY pj.id_penjual");
 $kantin_list = $stmt3->fetchAll();
 
 $stmt4 = $pdo->prepare("
     SELECT p.*, pj.nama_kantin
-    FROM pesanan p
-    JOIN penjual pj ON p.id_penjual = pj.id_penjual
+    FROM ekantin_pesanan p
+    JOIN ekantin_penjual pj ON p.id_penjual = pj.id_penjual
     WHERE p.id_user = ?
     ORDER BY p.tanggal DESC
     LIMIT 3

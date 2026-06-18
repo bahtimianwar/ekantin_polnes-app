@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `detail_pesanan`
+-- Table structure for table `ekantin_detail_pesanan`
 --
 
-CREATE TABLE `detail_pesanan` (
+CREATE TABLE `ekantin_detail_pesanan` (
   `id_detail` int(11) NOT NULL,
   `id_pesanan` int(11) DEFAULT NULL,
   `id_menu` int(11) DEFAULT NULL,
@@ -36,10 +36,10 @@ CREATE TABLE `detail_pesanan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `detail_pesanan`
+-- Dumping data for table `ekantin_detail_pesanan`
 --
 
-INSERT INTO `detail_pesanan` (`id_detail`, `id_pesanan`, `id_menu`, `jumlah`, `subtotal`) VALUES
+INSERT INTO `ekantin_detail_pesanan` (`id_detail`, `id_pesanan`, `id_menu`, `jumlah`, `subtotal`) VALUES
 (1, 1, 5, 1, 200000),
 (2, 2, 5, 15, 3000000),
 (3, 3, 4, 1, 15000),
@@ -51,10 +51,10 @@ INSERT INTO `detail_pesanan` (`id_detail`, `id_pesanan`, `id_menu`, `jumlah`, `s
 -- --------------------------------------------------------
 
 --
--- Table structure for table `menu`
+-- Table structure for table `ekantin_menu`
 --
 
-CREATE TABLE `menu` (
+CREATE TABLE `ekantin_menu` (
   `id_menu` int(11) NOT NULL,
   `id_penjual` int(11) NOT NULL,
   `nama_menu` varchar(100) NOT NULL,
@@ -65,20 +65,20 @@ CREATE TABLE `menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `menu`
+-- Dumping data for table `ekantin_menu`
 --
 
-INSERT INTO `menu` (`id_menu`, `id_penjual`, `nama_menu`, `kategori`, `harga`, `gambar`, `created_at`) VALUES
+INSERT INTO `ekantin_menu` (`id_menu`, `id_penjual`, `nama_menu`, `kategori`, `harga`, `gambar`, `created_at`) VALUES
 (4, 4, 'NASI GORENG', 'MAKANAN', 15000, '1773030740_5-Resep-Nasi-Goreng-Sederhana-hingga-Spesial-Mudah-dan-Praktis.jpg', '2026-03-12 08:01:25'),
 (5, 3, 'nasgor kece', 'MAKANAN', 200000, '1773327097_69b2d2f99e411.jpg', '2026-03-12 14:51:37');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `notifikasi`
+-- Table structure for table `ekantin_notifikasi`
 --
 
-CREATE TABLE `notifikasi` (
+CREATE TABLE `ekantin_notifikasi` (
   `id_notif` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   `judul` varchar(100) NOT NULL,
@@ -88,10 +88,10 @@ CREATE TABLE `notifikasi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `notifikasi`
+-- Dumping data for table `ekantin_notifikasi`
 --
 
-INSERT INTO `notifikasi` (`id_notif`, `id_user`, `judul`, `pesan`, `is_read`, `tanggal`) VALUES
+INSERT INTO `ekantin_notifikasi` (`id_notif`, `id_user`, `judul`, `pesan`, `is_read`, `tanggal`) VALUES
 (1, 17, 'Selamat Datang di E-Kantin! 🎉', 'Akun Anda berhasil dibuat. Mulai pesan makanan favorit dari kantin kampus sekarang!', 1, '2026-03-12 08:01:25'),
 (2, 17, 'Cara Menggunakan E-Kantin', 'Top up saldo Anda terlebih dahulu, kemudian pilih kantin dan menu yang Anda inginkan. Pembayaran dilakukan otomatis menggunakan saldo.', 1, '2026-03-12 08:01:25'),
 (3, 17, 'Pengajuan Top Up', 'Pengajuan top up sebesar Rp 100.000 sedang diproses. Saldo akan ditambahkan setelah dikonfirmasi admin.', 1, '2026-03-12 14:54:42'),
@@ -138,10 +138,10 @@ INSERT INTO `notifikasi` (`id_notif`, `id_user`, `judul`, `pesan`, `is_read`, `t
 -- --------------------------------------------------------
 
 --
--- Table structure for table `penjual`
+-- Table structure for table `ekantin_penjual`
 --
 
-CREATE TABLE `penjual` (
+CREATE TABLE `ekantin_penjual` (
   `id_penjual` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   `nama_kantin` varchar(50) NOT NULL,
@@ -151,20 +151,20 @@ CREATE TABLE `penjual` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `penjual`
+-- Dumping data for table `ekantin_penjual`
 --
 
-INSERT INTO `penjual` (`id_penjual`, `id_user`, `nama_kantin`, `lokasi`, `teks_gambar_qris`, `no_rek`) VALUES
+INSERT INTO `ekantin_penjual` (`id_penjual`, `id_user`, `nama_kantin`, `lokasi`, `teks_gambar_qris`, `no_rek`) VALUES
 (3, 18, 'KANTIN MAHBOI', 'GEDUNG TI', NULL, ''),
 (4, 19, 'KANTIN PAK MAHDI', 'KANTIN DANAU', NULL, '123456789');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pesanan`
+-- Table structure for table `ekantin_pesanan`
 --
 
-CREATE TABLE `pesanan` (
+CREATE TABLE `ekantin_pesanan` (
   `id_pesanan` int(11) NOT NULL,
   `id_user` int(11) DEFAULT NULL,
   `id_penjual` int(11) DEFAULT NULL,
@@ -175,10 +175,10 @@ CREATE TABLE `pesanan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `pesanan`
+-- Dumping data for table `ekantin_pesanan`
 --
 
-INSERT INTO `pesanan` (`id_pesanan`, `id_user`, `id_penjual`, `tanggal`, `status`, `total_harga`, `metode_bayar`) VALUES
+INSERT INTO `ekantin_pesanan` (`id_pesanan`, `id_user`, `id_penjual`, `tanggal`, `status`, `total_harga`, `metode_bayar`) VALUES
 (1, 17, 3, '2026-03-12 23:05:07', 'batal', 200000, 'saldo'),
 (2, 17, 3, '2026-03-12 23:17:35', 'batal', 3000000, 'saldo'),
 (3, 17, 4, '2026-03-13 01:15:47', 'selesai', 15000, 'saldo'),
@@ -190,10 +190,10 @@ INSERT INTO `pesanan` (`id_pesanan`, `id_user`, `id_penjual`, `tanggal`, `status
 -- --------------------------------------------------------
 
 --
--- Table structure for table `saldo`
+-- Table structure for table `ekantin_saldo`
 --
 
-CREATE TABLE `saldo` (
+CREATE TABLE `ekantin_saldo` (
   `id_saldo` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   `saldo` int(11) NOT NULL DEFAULT 0,
@@ -201,19 +201,19 @@ CREATE TABLE `saldo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `saldo`
+-- Dumping data for table `ekantin_saldo`
 --
 
-INSERT INTO `saldo` (`id_saldo`, `id_user`, `saldo`, `updated_at`) VALUES
+INSERT INTO `ekantin_saldo` (`id_saldo`, `id_user`, `saldo`, `updated_at`) VALUES
 (1, 17, 41350000, '2026-04-09 11:39:32');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `topup`
+-- Table structure for table `ekantin_topup`
 --
 
-CREATE TABLE `topup` (
+CREATE TABLE `ekantin_topup` (
   `id_topup` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   `jumlah` int(11) NOT NULL,
@@ -226,10 +226,10 @@ CREATE TABLE `topup` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `topup`
+-- Dumping data for table `ekantin_topup`
 --
 
-INSERT INTO `topup` (`id_topup`, `id_user`, `jumlah`, `metode`, `bukti`, `status`, `catatan`, `tanggal`, `diproses_at`) VALUES
+INSERT INTO `ekantin_topup` (`id_topup`, `id_user`, `jumlah`, `metode`, `bukti`, `status`, `catatan`, `tanggal`, `diproses_at`) VALUES
 (1, 17, 100000, 'qris', NULL, 'diterima', NULL, '2026-03-12 14:54:42', NULL),
 (2, 17, 200000, NULL, NULL, 'diterima', NULL, '2026-03-12 15:03:30', NULL),
 (3, 17, 20000, 'transfer_bri', NULL, 'diterima', NULL, '2026-04-02 09:42:24', NULL),
@@ -245,10 +245,10 @@ INSERT INTO `topup` (`id_topup`, `id_user`, `jumlah`, `metode`, `bukti`, `status
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Table structure for table `ekantin_users`
 --
 
-CREATE TABLE `users` (
+CREATE TABLE `ekantin_users` (
   `id_user` int(11) NOT NULL,
   `nim` varchar(20) DEFAULT NULL,
   `nama` varchar(100) NOT NULL,
@@ -260,10 +260,10 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `ekantin_users`
 --
 
-INSERT INTO `users` (`id_user`, `nim`, `nama`, `email`, `no_hp`, `password`, `created_at`, `role`) VALUES
+INSERT INTO `ekantin_users` (`id_user`, `nim`, `nama`, `email`, `no_hp`, `password`, `created_at`, `role`) VALUES
 (17, '246661031', 'aldi langit cihuy', 'ADMIN@MAHASISWA', '087886804403', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '2026-03-31 02:43:29', 'mahasiswa'),
 (18, NULL, 'MAHBOI', 'ADMIN@KANTIN', '08123', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '2026-03-12 16:26:29', 'penjual'),
 (19, NULL, 'MAHDI', 'ADMIN@MAHDI', '08321', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '2026-03-12 08:01:25', 'penjual'),
@@ -275,61 +275,61 @@ INSERT INTO `users` (`id_user`, `nim`, `nama`, `email`, `no_hp`, `password`, `cr
 --
 
 --
--- Indexes for table `detail_pesanan`
+-- Indexes for table `ekantin_detail_pesanan`
 --
-ALTER TABLE `detail_pesanan`
+ALTER TABLE `ekantin_detail_pesanan`
   ADD PRIMARY KEY (`id_detail`),
   ADD KEY `id_pesanan` (`id_pesanan`),
   ADD KEY `id_menu` (`id_menu`);
 
 --
--- Indexes for table `menu`
+-- Indexes for table `ekantin_menu`
 --
-ALTER TABLE `menu`
+ALTER TABLE `ekantin_menu`
   ADD PRIMARY KEY (`id_menu`),
   ADD KEY `id_penjual` (`id_penjual`);
 
 --
--- Indexes for table `notifikasi`
+-- Indexes for table `ekantin_notifikasi`
 --
-ALTER TABLE `notifikasi`
+ALTER TABLE `ekantin_notifikasi`
   ADD PRIMARY KEY (`id_notif`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indexes for table `penjual`
+-- Indexes for table `ekantin_penjual`
 --
-ALTER TABLE `penjual`
+ALTER TABLE `ekantin_penjual`
   ADD PRIMARY KEY (`id_penjual`),
   ADD UNIQUE KEY `teks_gambar_qris` (`teks_gambar_qris`),
   ADD KEY `fk_penjual_id_user` (`id_user`);
 
 --
--- Indexes for table `pesanan`
+-- Indexes for table `ekantin_pesanan`
 --
-ALTER TABLE `pesanan`
+ALTER TABLE `ekantin_pesanan`
   ADD PRIMARY KEY (`id_pesanan`),
   ADD KEY `id_user` (`id_user`),
   ADD KEY `id_penjual` (`id_penjual`);
 
 --
--- Indexes for table `saldo`
+-- Indexes for table `ekantin_saldo`
 --
-ALTER TABLE `saldo`
+ALTER TABLE `ekantin_saldo`
   ADD PRIMARY KEY (`id_saldo`),
   ADD UNIQUE KEY `id_user` (`id_user`);
 
 --
--- Indexes for table `topup`
+-- Indexes for table `ekantin_topup`
 --
-ALTER TABLE `topup`
+ALTER TABLE `ekantin_topup`
   ADD PRIMARY KEY (`id_topup`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indexes for table `users`
+-- Indexes for table `ekantin_users`
 --
-ALTER TABLE `users`
+ALTER TABLE `ekantin_users`
   ADD PRIMARY KEY (`id_user`),
   ADD UNIQUE KEY `unique_email` (`email`),
   ADD UNIQUE KEY `unique_nohp` (`no_hp`),
@@ -340,51 +340,51 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `detail_pesanan`
+-- AUTO_INCREMENT for table `ekantin_detail_pesanan`
 --
-ALTER TABLE `detail_pesanan`
+ALTER TABLE `ekantin_detail_pesanan`
   MODIFY `id_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `menu`
+-- AUTO_INCREMENT for table `ekantin_menu`
 --
-ALTER TABLE `menu`
+ALTER TABLE `ekantin_menu`
   MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `notifikasi`
+-- AUTO_INCREMENT for table `ekantin_notifikasi`
 --
-ALTER TABLE `notifikasi`
+ALTER TABLE `ekantin_notifikasi`
   MODIFY `id_notif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
--- AUTO_INCREMENT for table `penjual`
+-- AUTO_INCREMENT for table `ekantin_penjual`
 --
-ALTER TABLE `penjual`
+ALTER TABLE `ekantin_penjual`
   MODIFY `id_penjual` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `pesanan`
+-- AUTO_INCREMENT for table `ekantin_pesanan`
 --
-ALTER TABLE `pesanan`
+ALTER TABLE `ekantin_pesanan`
   MODIFY `id_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `saldo`
+-- AUTO_INCREMENT for table `ekantin_saldo`
 --
-ALTER TABLE `saldo`
+ALTER TABLE `ekantin_saldo`
   MODIFY `id_saldo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `topup`
+-- AUTO_INCREMENT for table `ekantin_topup`
 --
-ALTER TABLE `topup`
+ALTER TABLE `ekantin_topup`
   MODIFY `id_topup` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT for table `ekantin_users`
 --
-ALTER TABLE `users`
+ALTER TABLE `ekantin_users`
   MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
@@ -392,48 +392,48 @@ ALTER TABLE `users`
 --
 
 --
--- Constraints for table `detail_pesanan`
+-- Constraints for table `ekantin_detail_pesanan`
 --
-ALTER TABLE `detail_pesanan`
-  ADD CONSTRAINT `detail_pesanan_ibfk_1` FOREIGN KEY (`id_pesanan`) REFERENCES `pesanan` (`id_pesanan`),
-  ADD CONSTRAINT `detail_pesanan_ibfk_2` FOREIGN KEY (`id_menu`) REFERENCES `menu` (`id_menu`);
+ALTER TABLE `ekantin_detail_pesanan`
+  ADD CONSTRAINT `detail_pesanan_ibfk_1` FOREIGN KEY (`id_pesanan`) REFERENCES `ekantin_pesanan` (`id_pesanan`),
+  ADD CONSTRAINT `detail_pesanan_ibfk_2` FOREIGN KEY (`id_menu`) REFERENCES `ekantin_menu` (`id_menu`);
 
 --
--- Constraints for table `menu`
+-- Constraints for table `ekantin_menu`
 --
-ALTER TABLE `menu`
-  ADD CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`id_penjual`) REFERENCES `penjual` (`id_penjual`);
+ALTER TABLE `ekantin_menu`
+  ADD CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`id_penjual`) REFERENCES `ekantin_penjual` (`id_penjual`);
 
 --
--- Constraints for table `notifikasi`
+-- Constraints for table `ekantin_notifikasi`
 --
-ALTER TABLE `notifikasi`
-  ADD CONSTRAINT `notifikasi_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
+ALTER TABLE `ekantin_notifikasi`
+  ADD CONSTRAINT `notifikasi_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `ekantin_users` (`id_user`) ON DELETE CASCADE;
 
 --
--- Constraints for table `penjual`
+-- Constraints for table `ekantin_penjual`
 --
-ALTER TABLE `penjual`
-  ADD CONSTRAINT `fk_penjual_id_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
+ALTER TABLE `ekantin_penjual`
+  ADD CONSTRAINT `fk_penjual_id_user` FOREIGN KEY (`id_user`) REFERENCES `ekantin_users` (`id_user`);
 
 --
--- Constraints for table `pesanan`
+-- Constraints for table `ekantin_pesanan`
 --
-ALTER TABLE `pesanan`
-  ADD CONSTRAINT `pesanan_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`),
-  ADD CONSTRAINT `pesanan_ibfk_2` FOREIGN KEY (`id_penjual`) REFERENCES `penjual` (`id_penjual`);
+ALTER TABLE `ekantin_pesanan`
+  ADD CONSTRAINT `pesanan_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `ekantin_users` (`id_user`),
+  ADD CONSTRAINT `pesanan_ibfk_2` FOREIGN KEY (`id_penjual`) REFERENCES `ekantin_penjual` (`id_penjual`);
 
 --
--- Constraints for table `saldo`
+-- Constraints for table `ekantin_saldo`
 --
-ALTER TABLE `saldo`
-  ADD CONSTRAINT `saldo_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
+ALTER TABLE `ekantin_saldo`
+  ADD CONSTRAINT `saldo_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `ekantin_users` (`id_user`) ON DELETE CASCADE;
 
 --
--- Constraints for table `topup`
+-- Constraints for table `ekantin_topup`
 --
-ALTER TABLE `topup`
-  ADD CONSTRAINT `topup_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
+ALTER TABLE `ekantin_topup`
+  ADD CONSTRAINT `topup_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `ekantin_users` (`id_user`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

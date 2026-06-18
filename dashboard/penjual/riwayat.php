@@ -30,7 +30,7 @@ $stmt = $pdo->prepare("
         SUM(CASE WHEN status='selesai' THEN total_harga ELSE 0 END) as total_pendapatan,
         SUM(CASE WHEN status='selesai' THEN 1 ELSE 0 END) as pesanan_selesai,
         SUM(CASE WHEN status='batal' THEN 1 ELSE 0 END) as pesanan_batal
-    FROM pesanan p $where
+    FROM ekantin_pesanan p $where
 ");
 $stmt->execute($params);
 $stats = $stmt->fetch();
@@ -39,10 +39,10 @@ $stats = $stmt->fetch();
 $stmt2 = $pdo->prepare("
     SELECT p.*, u.nama, u.nim,
            GROUP_CONCAT(CONCAT(m.nama_menu, ' x', dp.jumlah) SEPARATOR ', ') as items
-    FROM pesanan p
-    JOIN users u ON p.id_user = u.id_user
-    LEFT JOIN detail_pesanan dp ON p.id_pesanan = dp.id_pesanan
-    LEFT JOIN menu m ON dp.id_menu = m.id_menu
+    FROM ekantin_pesanan p
+    JOIN ekantin_users u ON p.id_user = u.id_user
+    LEFT JOIN ekantin_detail_pesanan dp ON p.id_pesanan = dp.id_pesanan
+    LEFT JOIN ekantin_menu m ON dp.id_menu = m.id_menu
     $where
     GROUP BY p.id_pesanan
     ORDER BY p.tanggal DESC

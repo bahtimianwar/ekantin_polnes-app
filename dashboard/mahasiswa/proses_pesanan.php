@@ -21,7 +21,7 @@ if (!$id_penjual || empty($items)) {
 // Hitung total
 $total = 0;
 foreach ($items as $item) {
-    $stmt = $pdo->prepare("SELECT harga FROM menu WHERE id_menu = ? AND id_penjual = ?");
+    $stmt = $pdo->prepare("SELECT harga FROM ekantin_menu WHERE id_menu = ? AND id_penjual = ?");
     $stmt->execute([$item['id_menu'], $id_penjual]);
     $menu = $stmt->fetch();
     if (!$menu) { echo json_encode(['success' => false, 'message' => 'Menu tidak valid']); exit; }
@@ -29,7 +29,7 @@ foreach ($items as $item) {
 }
 
 // Cek saldo
-$stmt = $pdo->prepare("SELECT saldo FROM saldo WHERE id_user = ?");
+$stmt = $pdo->prepare("SELECT saldo FROM ekantin_saldo WHERE id_user = ?");
 $stmt->execute([$id_user]);
 $saldo_row = $stmt->fetch();
 $saldo = $saldo_row ? $saldo_row['saldo'] : 0;
@@ -42,34 +42,34 @@ try {
     $pdo->beginTransaction();
 
     // Kurangi saldo
-    $pdo->prepare("UPDATE saldo SET saldo = saldo - ? WHERE id_user = ?")
+    $pdo->prepare("UPDATE ekantin_saldo SET saldo = saldo - ? WHERE id_user = ?")
         ->execute([$total, $id_user]);
 
     // Buat pesanan
-    $pdo->prepare("INSERT INTO pesanan (id_user, id_penjual, total_harga, metode_bayar, status) VALUES (?, ?, ?, 'saldo', 'menunggu')")
+    $pdo->prepare("INSERT INTO ekantin_pesanan (id_user, id_penjual, total_harga, metode_bayar, status) VALUES (?, ?, ?, 'saldo', 'menunggu')")
         ->execute([$id_user, $id_penjual, $total]);
     $id_pesanan = $pdo->lastInsertId();
 
     // Insert detail
     foreach ($items as $item) {
-        $stmt = $pdo->prepare("SELECT harga FROM menu WHERE id_menu = ?");
+        $stmt = $pdo->prepare("SELECT harga FROM ekantin_menu WHERE id_menu = ?");
         $stmt->execute([$item['id_menu']]);
         $menu = $stmt->fetch();
         $subtotal = $menu['harga'] * (int)$item['jumlah'];
 
-        $pdo->prepare("INSERT INTO detail_pesanan (id_pesanan, id_menu, jumlah, subtotal) VALUES (?, ?, ?, ?)")
+        $pdo->prepare("INSERT INTO ekantin_detail_pesanan (id_pesanan, id_menu, jumlah, subtotal) VALUES (?, ?, ?, ?)")
             ->execute([$id_pesanan, $item['id_menu'], $item['jumlah'], $subtotal]);
     }
 
     // Notifikasi ke penjual
-    $stmt_pj = $pdo->prepare("SELECT id_user FROM penjual WHERE id_penjual = ?");
+    $stmt_pj = $pdo->prepare("SELECT id_user FROM ekantin_penjual WHERE id_penjual = ?");
     $stmt_pj->execute([$id_penjual]);
     $penjual = $stmt_pj->fetch();
-    $pdo->prepare("INSERT INTO notifikasi (id_user, judul, pesan) VALUES (?, 'Pesanan Baru Masuk! 🛒', ?)")
+    $pdo->prepare("INSERT INTO ekantin_notifikasi (id_user, judul, pesan) VALUES (?, 'Pesanan Baru Masuk! 🛒', ?)")
         ->execute([$penjual['id_user'], "Ada pesanan baru #$id_pesanan dari " . $_SESSION['user']['nama'] . " senilai Rp " . number_format($total, 0, ',', '.') . "."]);
 
     // Notifikasi ke mahasiswa
-    $pdo->prepare("INSERT INTO notifikasi (id_user, judul, pesan) VALUES (?, 'Pesanan Berhasil Dibuat ✅', ?)")
+    $pdo->prepare("INSERT INTO ekantin_notifikasi (id_user, judul, pesan) VALUES (?, 'Pesanan Berhasil Dibuat ✅', ?)")
         ->execute([$id_user, "Pesanan #$id_pesanan senilai Rp " . number_format($total, 0, ',', '.') . " berhasil dibuat. Tunggu konfirmasi penjual."]);
 
     $pdo->commit();

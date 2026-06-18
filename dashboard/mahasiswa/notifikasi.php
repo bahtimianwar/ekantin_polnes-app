@@ -3,9 +3,9 @@ session_start();
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'mahasiswa') { header('Location: /login.php'); exit; }
 require_once '../../includes/db.php';
 $id_user = $_SESSION['user']['id_user'];
-if ($_GET['action'] ?? '' === 'read_all') { $pdo->prepare("UPDATE notifikasi SET is_read = 1 WHERE id_user = ?")->execute([$id_user]); header("Location: notifikasi.php"); exit; }
-if (isset($_GET['hapus'])) { $pdo->prepare("DELETE FROM notifikasi WHERE id_notif = ? AND id_user = ?")->execute([$_GET['hapus'], $id_user]); header("Location: notifikasi.php"); exit; }
-$stmt = $pdo->prepare("SELECT * FROM notifikasi WHERE id_user = ? ORDER BY tanggal DESC");
+if ($_GET['action'] ?? '' === 'read_all') { $pdo->prepare("UPDATE ekantin_notifikasi SET is_read = 1 WHERE id_user = ?")->execute([$id_user]); header("Location: notifikasi.php"); exit; }
+if (isset($_GET['hapus'])) { $pdo->prepare("DELETE FROM ekantin_notifikasi WHERE id_notif = ? AND id_user = ?")->execute([$_GET['hapus'], $id_user]); header("Location: notifikasi.php"); exit; }
+$stmt = $pdo->prepare("SELECT * FROM ekantin_notifikasi WHERE id_user = ? ORDER BY tanggal DESC");
 $stmt->execute([$id_user]); $notifs = $stmt->fetchAll();
 $unread = array_filter($notifs, fn($n) => !$n['is_read']);
 ?>

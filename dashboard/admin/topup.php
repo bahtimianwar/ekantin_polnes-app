@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Permintaan tidak valid.';
     } else {
         // Ambil data top up
-        $stmt = $pdo->prepare("SELECT * FROM topup WHERE id_topup = ? AND status = 'menunggu'");
+        $stmt = $pdo->prepare("SELECT * FROM ekantin_topup WHERE id_topup = ? AND status = 'menunggu'");
         $stmt->execute([$id_topup]);
         $topup = $stmt->fetch();
 
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 if ($aksi === 'terima') {
                     // 1. Update status top up → diterima
-                    $pdo->prepare("UPDATE topup SET status = 'diterima' WHERE id_topup = ?")
+                    $pdo->prepare("UPDATE ekantin_topup SET status = 'diterima' WHERE id_topup = ?")
                         ->execute([$id_topup]);
 
                     // 2. Tambah saldo (INSERT jika belum ada, UPDATE jika sudah ada)
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 } else { // tolak
                     // 1. Update status top up → ditolak
-                    $pdo->prepare("UPDATE topup SET status = 'ditolak' WHERE id_topup = ?")
+                    $pdo->prepare("UPDATE ekantin_topup SET status = 'ditolak' WHERE id_topup = ?")
                         ->execute([$id_topup]);
 
                     // 2. Kirim notifikasi penolakan
@@ -81,8 +81,8 @@ $where = $filter_status !== 'semua' ? "WHERE t.status = '$filter_status'" : '';
 
 $stmt = $pdo->query("
     SELECT t.*, u.nama, u.nim, u.no_hp
-    FROM topup t
-    JOIN users u ON t.id_user = u.id_user
+    FROM ekantin_topup t
+    JOIN ekantin_users u ON t.id_user = u.id_user
     $where
     ORDER BY t.tanggal DESC
 ");
@@ -90,7 +90,7 @@ $topup_list = $stmt->fetchAll();
 
 // Hitung per status untuk badge
 $counts = $pdo->query("
-    SELECT status, COUNT(*) as jumlah FROM topup GROUP BY status
+    SELECT status, COUNT(*) as jumlah FROM ekantin_topup GROUP BY status
 ")->fetchAll(PDO::FETCH_KEY_PAIR);
 ?>
 

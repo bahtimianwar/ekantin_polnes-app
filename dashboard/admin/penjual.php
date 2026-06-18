@@ -8,10 +8,10 @@ $stmt = $pdo->query("
            p.id_penjual, p.nama_kantin, p.lokasi, p.no_rek,
            COUNT(DISTINCT m.id_menu) as total_menu,
            COUNT(DISTINCT ps.id_pesanan) as total_pesanan
-    FROM users u
-    JOIN penjual p ON u.id_user = p.id_user
-    LEFT JOIN menu m ON p.id_penjual = m.id_penjual
-    LEFT JOIN pesanan ps ON p.id_penjual = ps.id_penjual AND ps.status = 'selesai'
+    FROM ekantin_users u
+    JOIN ekantin_penjual p ON u.id_user = p.id_user
+    LEFT JOIN ekantin_menu m ON p.id_penjual = m.id_penjual
+    LEFT JOIN ekantin_pesanan ps ON p.id_penjual = ps.id_penjual AND ps.status = 'selesai'
     WHERE u.role = 'penjual'
     GROUP BY u.id_user
     ORDER BY u.created_at DESC

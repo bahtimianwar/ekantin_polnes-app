@@ -9,19 +9,19 @@ $id_user = $_SESSION['user']['id_user'];
 $id_kantin = (int)($_GET['id'] ?? 0);
 if (!$id_kantin) { header("Location: beranda.php"); exit; }
 
-$stmt = $pdo->prepare("SELECT pj.*, u.no_hp FROM penjual pj JOIN users u ON pj.id_user = u.id_user WHERE pj.id_penjual = ?");
+$stmt = $pdo->prepare("SELECT pj.*, u.no_hp FROM ekantin_penjual pj JOIN ekantin_users u ON pj.id_user = u.id_user WHERE pj.id_penjual = ?");
 $stmt->execute([$id_kantin]);
 $kantin = $stmt->fetch();
 if (!$kantin) { header("Location: beranda.php"); exit; }
 
-$stmt2 = $pdo->prepare("SELECT * FROM menu WHERE id_penjual = ? ORDER BY kategori, nama_menu");
+$stmt2 = $pdo->prepare("SELECT * FROM ekantin_menu WHERE id_penjual = ? ORDER BY kategori, nama_menu");
 $stmt2->execute([$id_kantin]);
 $menu_all = $stmt2->fetchAll();
 
 $menu_by_kat = [];
 foreach ($menu_all as $m) { $menu_by_kat[$m['kategori'] ?? 'Lainnya'][] = $m; }
 
-$stmt_saldo = $pdo->prepare("SELECT COALESCE(saldo,0) FROM saldo WHERE id_user=?");
+$stmt_saldo = $pdo->prepare("SELECT COALESCE(saldo,0) FROM ekantin_saldo WHERE id_user=?");
 $stmt_saldo->execute([$id_user]);
 $saldo_mahasiswa = (int)($stmt_saldo->fetchColumn() ?: 0);
 

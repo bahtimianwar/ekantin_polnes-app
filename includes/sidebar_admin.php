@@ -9,7 +9,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 require_once __DIR__ . '/db.php';
 
 // Hitung pengajuan top up yang menunggu
-$stmt = $pdo->query("SELECT COUNT(*) FROM topup WHERE status = 'menunggu'");
+$stmt = $pdo->query("SELECT COUNT(*) FROM ekantin_topup WHERE status = 'menunggu'");
 $topup_pending = $stmt->fetchColumn();
 ?>
 <!DOCTYPE html>

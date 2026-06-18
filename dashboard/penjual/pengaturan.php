@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (empty($nama_kantin) || empty($lokasi)) {
             $error = 'Nama kantin dan lokasi tidak boleh kosong.';
         } else {
-            $stmt = $pdo->prepare("UPDATE penjual SET nama_kantin=?, lokasi=?, no_rek=? WHERE id_penjual=?");
+            $stmt = $pdo->prepare("UPDATE ekantin_penjual SET nama_kantin=?, lokasi=?, no_rek=? WHERE id_penjual=?");
             $stmt->execute([$nama_kantin, $lokasi, $no_rek, $id_penjual]);
             // Update session
             $_SESSION['penjual']['nama_kantin'] = $nama_kantin;
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Cek apakah mau ganti password
             if (!empty($password_baru)) {
-                $stmt = $pdo->prepare("SELECT password FROM users WHERE id_user = ?");
+                $stmt = $pdo->prepare("SELECT password FROM ekantin_users WHERE id_user = ?");
                 $stmt->execute([$id_user]);
                 $user = $stmt->fetch();
                 if (!password_verify($password_lama, $user['password'])) {
@@ -51,13 +51,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $error = 'Password baru minimal 6 karakter.';
                 } else {
                     $hash = password_hash($password_baru, PASSWORD_DEFAULT);
-                    $pdo->prepare("UPDATE users SET nama=?, no_hp=?, password=? WHERE id_user=?")
+                    $pdo->prepare("UPDATE ekantin_users SET nama=?, no_hp=?, password=? WHERE id_user=?")
                         ->execute([$nama, $no_hp, $hash, $id_user]);
                     $_SESSION['user']['nama'] = $nama;
                     $success = 'Data akun dan password berhasil diperbarui!';
                 }
             } else {
-                $pdo->prepare("UPDATE users SET nama=?, no_hp=? WHERE id_user=?")
+                $pdo->prepare("UPDATE ekantin_users SET nama=?, no_hp=? WHERE id_user=?")
                     ->execute([$nama, $no_hp, $id_user]);
                 $_SESSION['user']['nama'] = $nama;
                 $success = 'Data akun berhasil diperbarui!';
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Ambil data terbaru
-$stmt = $pdo->prepare("SELECT u.*, p.nama_kantin, p.lokasi, p.no_rek, p.teks_gambar_qris FROM users u LEFT JOIN penjual p ON p.id_user = u.id_user WHERE u.id_user = ?");
+$stmt = $pdo->prepare("SELECT u.*, p.nama_kantin, p.lokasi, p.no_rek, p.teks_gambar_qris FROM ekantin_users u LEFT JOIN ekantin_penjual p ON p.id_user = u.id_user WHERE u.id_user = ?");
 $stmt->execute([$id_user]);
 $data = $stmt->fetch();
 ?>

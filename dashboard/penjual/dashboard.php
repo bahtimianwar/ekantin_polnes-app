@@ -14,7 +14,7 @@ $stmt = $pdo->prepare("
         SUM(CASE WHEN status='selesai' THEN total_harga ELSE 0 END) as pendapatan,
         SUM(CASE WHEN status='menunggu' THEN 1 ELSE 0 END) as menunggu,
         SUM(CASE WHEN status='diproses' THEN 1 ELSE 0 END) as diproses
-    FROM pesanan 
+    FROM ekantin_pesanan 
     WHERE id_penjual = ? AND DATE(tanggal) = CURDATE()
 ");
 $stmt->execute([$id_penjual]);
@@ -25,14 +25,14 @@ $stmt2 = $pdo->prepare("
     SELECT 
         COUNT(*) as total_pesanan,
         SUM(CASE WHEN status='selesai' THEN total_harga ELSE 0 END) as pendapatan
-    FROM pesanan 
+    FROM ekantin_pesanan 
     WHERE id_penjual = ? AND MONTH(tanggal) = MONTH(CURDATE()) AND YEAR(tanggal) = YEAR(CURDATE())
 ");
 $stmt2->execute([$id_penjual]);
 $stats_bulan = $stmt2->fetch();
 
 // Total menu aktif
-$stmt3 = $pdo->prepare("SELECT COUNT(*) as total FROM menu WHERE id_penjual = ?");
+$stmt3 = $pdo->prepare("SELECT COUNT(*) as total FROM ekantin_menu WHERE id_penjual = ?");
 $stmt3->execute([$id_penjual]);
 $total_menu = $stmt3->fetchColumn();
 
@@ -40,10 +40,10 @@ $total_menu = $stmt3->fetchColumn();
 $stmt4 = $pdo->prepare("
     SELECT p.*, u.nama, u.nim,
            GROUP_CONCAT(CONCAT(m.nama_menu, ' x', dp.jumlah) SEPARATOR ', ') as items
-    FROM pesanan p
-    JOIN users u ON p.id_user = u.id_user
-    LEFT JOIN detail_pesanan dp ON p.id_pesanan = dp.id_pesanan
-    LEFT JOIN menu m ON dp.id_menu = m.id_menu
+    FROM ekantin_pesanan p
+    JOIN ekantin_users u ON p.id_user = u.id_user
+    LEFT JOIN ekantin_detail_pesanan dp ON p.id_pesanan = dp.id_pesanan
+    LEFT JOIN ekantin_menu m ON dp.id_menu = m.id_menu
     WHERE p.id_penjual = ?
     GROUP BY p.id_pesanan
     ORDER BY p.tanggal DESC
@@ -55,9 +55,9 @@ $pesanan_terbaru = $stmt4->fetchAll();
 // Menu terlaris
 $stmt5 = $pdo->prepare("
     SELECT m.nama_menu, m.harga, SUM(dp.jumlah) as total_terjual
-    FROM detail_pesanan dp
-    JOIN menu m ON dp.id_menu = m.id_menu
-    JOIN pesanan p ON dp.id_pesanan = p.id_pesanan
+    FROM ekantin_detail_pesanan dp
+    JOIN ekantin_menu m ON dp.id_menu = m.id_menu
+    JOIN ekantin_pesanan p ON dp.id_pesanan = p.id_pesanan
     WHERE p.id_penjual = ? AND p.status = 'selesai'
     GROUP BY m.id_menu
     ORDER BY total_terjual DESC

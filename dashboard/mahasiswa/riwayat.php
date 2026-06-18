@@ -6,7 +6,7 @@ $id_user = $_SESSION['user']['id_user'];
 $sf = $_GET['status'] ?? '';
 $where = "WHERE p.id_user = ?"; $params = [$id_user];
 if ($sf !== '') { $where .= " AND p.status = ?"; $params[] = $sf; }
-$stmt = $pdo->prepare("SELECT p.*, pj.nama_kantin, pj.lokasi, GROUP_CONCAT(CONCAT(m.nama_menu, ' x', dp.jumlah) SEPARATOR ', ') as items FROM pesanan p JOIN penjual pj ON p.id_penjual = pj.id_penjual LEFT JOIN detail_pesanan dp ON p.id_pesanan = dp.id_pesanan LEFT JOIN menu m ON dp.id_menu = m.id_menu $where GROUP BY p.id_pesanan ORDER BY p.tanggal DESC");
+$stmt = $pdo->prepare("SELECT p.*, pj.nama_kantin, pj.lokasi, GROUP_CONCAT(CONCAT(m.nama_menu, ' x', dp.jumlah) SEPARATOR ', ') as items FROM ekantin_pesanan p JOIN ekantin_penjual pj ON p.id_penjual = pj.id_penjual LEFT JOIN ekantin_detail_pesanan dp ON p.id_pesanan = dp.id_pesanan LEFT JOIN ekantin_menu m ON dp.id_menu = m.id_menu $where GROUP BY p.id_pesanan ORDER BY p.tanggal DESC");
 $stmt->execute($params); $pesanan_list = $stmt->fetchAll();
 ?>
 <?php require_once '../../includes/sidebar_mahasiswa.php'; ?>
